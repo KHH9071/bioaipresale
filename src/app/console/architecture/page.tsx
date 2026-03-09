@@ -1,0 +1,238 @@
+'use client'
+
+import SectionHeader from '@/components/common/SectionHeader'
+import styles from './architecture.module.css'
+
+const BLOCKS = [
+  {
+    id: 'public-data',
+    label: '외부 공개 데이터',
+    description: 'PubMed/NCBI, ClinicalTrials.gov, FDA DailyMed, EMA 제품 정보, bioRxiv. 사실적 근거의 기반을 제공하는 데이터 소스로, PoC 라이선스 위험 없이 모두 공개 접근 가능합니다.',
+    layer: 'source',
+    color: '#58A6FF',
+  },
+  {
+    id: 'internal-data',
+    label: '고객 내부 콘텐츠',
+    description: '내부 연구 보고서, SOP, 규제 제출 서류, 메디컬 어페어스 문서. 프로덕션 환경에서만 접근하며 — 고객이 통제된 접근을 제공하지 않는 한 PoC에서는 사용하지 않습니다.',
+    layer: 'source',
+    color: '#3FB950',
+  },
+  {
+    id: 'ingestion',
+    label: '수집 / ETL',
+    description: '문서 수집, PDF 파싱, 포맷 정규화. 이 레이어는 다양한 소스 포맷이 인덱스에 들어가기 전 처리합니다. 여기서의 안정성이 하위 데이터 품질 장애를 방지합니다.',
+    layer: 'processing',
+    color: '#D29922',
+  },
+  {
+    id: 'metadata',
+    label: '메타데이터 정규화',
+    description: 'PubMed MeSH 용어, ClinicalTrials 질환명, 고객 내부 명명법에 걸쳐 용어를 통일합니다. 이 없이는 서로 다른 어휘의 동일 개념이 검색 실패를 일으킵니다.',
+    layer: 'processing',
+    color: '#D29922',
+  },
+  {
+    id: 'search-index',
+    label: '검색 인덱스 / 벡터 스토어',
+    description: '밀집 벡터 임베딩(시맨틱 유사도)과 BM25 키워드 인덱스(정확 매칭 재현율)를 결합한 하이브리드 인덱스. 제약 도메인 검색에는 둘 다 필요하며 하나만으로는 충분하지 않습니다.',
+    layer: 'processing',
+    color: '#D29922',
+  },
+  {
+    id: 'llm-orchestration',
+    label: 'LLM 오케스트레이션',
+    description: '검색 → 프롬프트 구성 → 생성 파이프라인을 관리합니다. 컨텍스트 윈도우 사용 제어, 인용 요건 강제 적용, 복잡 쿼리에 대한 다단계 추론을 조율합니다.',
+    layer: 'intelligence',
+    color: '#BC8CFF',
+  },
+  {
+    id: 'guardrail',
+    label: '가드레일 / 인용 엔진',
+    description: 'AI 생성 모든 답변에 추적 가능한 출처 참조를 포함하도록 보장합니다. 환각이 사실로 제시되는 것을 방지합니다. 규제 책임이 있는 모든 제약/바이오텍 배포에 필수입니다.',
+    layer: 'intelligence',
+    color: '#BC8CFF',
+  },
+  {
+    id: 'web-app',
+    label: '웹 앱 / 사용자 레이어',
+    description: '최종 사용자가 상호작용하는 쿼리 인터페이스, 근거 카드, 해석 패널. 연구원 및 BD팀을 위해 설계되었으며 범용 채팅 인터페이스가 아닙니다.',
+    layer: 'delivery',
+    color: '#F85149',
+  },
+  {
+    id: 'logging',
+    label: '로깅 / 평가',
+    description: '쿼리 로그, 검색 결과, 사용자 피드백, 지연 시간 지표를 수집합니다. PoC 기간 KPI 측정 및 배포 후 지속적 개선에 필수적입니다.',
+    layer: 'observability',
+    color: '#8B949E',
+  },
+]
+
+const DEPLOYMENT_OPTIONS = [
+  {
+    title: '클라우드 빠른 PoC',
+    description: '관리형 벡터 DB (Pinecone / Weaviate Cloud), 서버리스 LLM API, Vercel 등에 배포하는 Next.js 프론트엔드. 1주일 이내 배포 가능. 인프라팀 불필요.',
+    color: '#3FB950',
+  },
+  {
+    title: '엔터프라이즈 배포',
+    description: '자체 호스팅 벡터 DB, VPC 격리 LLM 추론, SSO 통합, 감사 로깅. 데이터 민감도 요건이 있는 고객 내부 문서 PoC에 적합합니다.',
+    color: '#58A6FF',
+  },
+  {
+    title: '하이브리드 데이터 접근',
+    description: '공개 데이터는 클라우드 인덱스, 내부 데이터는 온프레미스 인덱스에 저장. 쿼리 라우터가 쿼리별로 어느 인덱스를 참조할지 결정합니다. 속도와 데이터 거버넌스를 균형 있게 유지합니다.',
+    color: '#D29922',
+  },
+]
+
+const GOVERNANCE = [
+  { label: '출처 추적 가능성', text: '모든 답변에 문서, 섹션, 버전 출처 포함. 출처 없는 주장은 사용자에게 전달되지 않습니다.' },
+  { label: '전문가 검토 게이트', text: '고위험 출력(규제, 메디컬 어페어스)은 배포 전 SME 검토를 거칩니다.' },
+  { label: '접근 제어', text: '공개 문서와 내부 문서 간 네임스페이스 분리. 사용자 역할 기반 쿼리 범위 제한.' },
+  { label: '비진단용 주의 문구', text: '고정 UI 주의 문구 및 시스템 수준 지시사항: 연구 및 Presales 기획 전용.' },
+]
+
+export default function ArchitecturePage() {
+  return (
+    <div>
+      <SectionHeader
+        title="참조 아키텍처"
+        subtitle="Bio AI 근거 탐색 및 제안 워크플로우를 위한 클라우드 준비 패턴"
+      />
+
+      <div className={styles.content}>
+        {/* Architecture Diagram */}
+        <div className={styles.diagramSection}>
+          <div className={styles.sectionLabel}>아키텍처 블록</div>
+          <div className={styles.diagram}>
+            {/* Layer: Data Sources */}
+            <div className={styles.layerRow}>
+              <div className={styles.layerLabel}>데이터 소스</div>
+              <div className={styles.layerBlocks}>
+                {BLOCKS.filter(b => b.layer === 'source').map(block => (
+                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
+                    <div className={styles.blockDot} style={{ background: block.color }} />
+                    <div className={styles.blockName}>{block.label}</div>
+                    <div className={styles.tooltip}>{block.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.arrow}>↓</div>
+
+            {/* Layer: Processing */}
+            <div className={styles.layerRow}>
+              <div className={styles.layerLabel}>처리</div>
+              <div className={styles.layerBlocks}>
+                {BLOCKS.filter(b => b.layer === 'processing').map(block => (
+                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
+                    <div className={styles.blockDot} style={{ background: block.color }} />
+                    <div className={styles.blockName}>{block.label}</div>
+                    <div className={styles.tooltip}>{block.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.arrow}>↓</div>
+
+            {/* Layer: Intelligence */}
+            <div className={styles.layerRow}>
+              <div className={styles.layerLabel}>인텔리전스</div>
+              <div className={styles.layerBlocks}>
+                {BLOCKS.filter(b => b.layer === 'intelligence').map(block => (
+                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
+                    <div className={styles.blockDot} style={{ background: block.color }} />
+                    <div className={styles.blockName}>{block.label}</div>
+                    <div className={styles.tooltip}>{block.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.arrow}>↓</div>
+
+            {/* Layer: Delivery */}
+            <div className={styles.layerRow}>
+              <div className={styles.layerLabel}>딜리버리</div>
+              <div className={styles.layerBlocks}>
+                {BLOCKS.filter(b => b.layer === 'delivery').map(block => (
+                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
+                    <div className={styles.blockDot} style={{ background: block.color }} />
+                    <div className={styles.blockName}>{block.label}</div>
+                    <div className={styles.tooltip}>{block.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.arrow}>↓</div>
+
+            {/* Layer: Observability */}
+            <div className={styles.layerRow}>
+              <div className={styles.layerLabel}>관측성</div>
+              <div className={styles.layerBlocks}>
+                {BLOCKS.filter(b => b.layer === 'observability').map(block => (
+                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
+                    <div className={styles.blockDot} style={{ background: block.color }} />
+                    <div className={styles.blockName}>{block.label}</div>
+                    <div className={styles.tooltip}>{block.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <p className={styles.diagramNote}>각 블록에 마우스를 올리면 아키텍처에서의 역할을 확인할 수 있습니다.</p>
+        </div>
+
+        {/* Deployment Options */}
+        <div className={styles.sectionLabel}>배포 옵션</div>
+        <div className={styles.deployCards}>
+          {DEPLOYMENT_OPTIONS.map((opt) => (
+            <div
+              key={opt.title}
+              className={styles.deployCard}
+              style={{ borderColor: `${opt.color}30` }}
+            >
+              <div className={styles.deployTitle} style={{ color: opt.color }}>{opt.title}</div>
+              <p className={styles.deployDesc}>{opt.description}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Governance */}
+        <div className={styles.sectionLabel}>거버넌스 및 가드레일</div>
+        <div className={styles.governanceList}>
+          {GOVERNANCE.map((item) => (
+            <div key={item.label} className={styles.govItem}>
+              <div className={styles.govLabel}>{item.label}</div>
+              <div className={styles.govText}>{item.text}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Delivery Notes */}
+        <div className={styles.deliveryNotes}>
+          <div className={styles.sectionLabel}>납품 노트</div>
+          <div className={styles.noteGrid}>
+            <div className={styles.noteItem}>
+              <div className={styles.noteTitle}>PoC 범위</div>
+              <p className={styles.noteText}>공개 데이터 한정, 단일 유스케이스, 클라우드 호스팅. 6주 내 시연 가능. 프로덕션 SLA 및 보안 인증 불필요.</p>
+            </div>
+            <div className={styles.noteItem}>
+              <div className={styles.noteTitle}>프로덕션 전환</div>
+              <p className={styles.noteText}>내부 데이터 수집, VPC 격리, SSO, 감사 로깅, SLA 모니터링 추가. 규제 대응 배포 기준 PoC 이후 통상 3~4개월 소요.</p>
+            </div>
+            <div className={styles.noteItem}>
+              <div className={styles.noteTitle}>예상 확장</div>
+              <p className={styles.noteText}>추가 적응증 커버리지, 다국어 지원, 내부 연구 플랫폼 API 연동, 하위 보고서 생성 모듈 확장.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/khh90/Desktop/CODE/poetry/src/app/**)",
+      "Read(//c/Users/khh90/Desktop/CODE/poetry/src/components//**)",
+      "Read(//c/Users/khh90/Desktop/CODE/poetry/src/lib//**)"
+    ]
+  }
+}

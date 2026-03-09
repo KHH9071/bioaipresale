@@ -1,0 +1,113 @@
+.bar {
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  padding: 7px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.queryGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.queryLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  white-space: nowrap;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2px 9px;
+  font-size: 11px;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.pillKey {
+  color: var(--fg-subtle);
+  font-size: 10px;
+}
+
+.pillMain {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.separator {
+  color: var(--fg-subtle);
+  font-size: 11px;
+}
+
+.metaGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sourceBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sourcePubmed {
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid rgba(88, 166, 255, 0.25);
+  color: var(--accent);
+}
+
+.sourceTrials {
+  background: rgba(63, 185, 80, 0.1);
+  border: 1px solid rgba(63, 185, 80, 0.25);
+  color: var(--accent-green);
+}
+
+.sourceRules {
+  background: rgba(188, 140, 255, 0.1);
+  border: 1px solid rgba(188, 140, 255, 0.25);
+  color: var(--accent-purple);
+}
+
+.timestamp {
+  font-size: 10px;
+  color: var(--fg-subtle);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.disclaimer {
+  font-size: 10px;
+  color: var(--accent-amber);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-amber);
+  flex-shrink: 0;
+}

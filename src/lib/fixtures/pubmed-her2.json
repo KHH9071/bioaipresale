@@ -1,0 +1,88 @@
+{
+  "papers": [
+    {
+      "pmid": "37121537",
+      "title": "Trastuzumab Deruxtecan versus Trastuzumab Emtansine for HER2-Positive Breast Cancer (DESTINY-Breast03)",
+      "journal": "New England Journal of Medicine",
+      "year": "2022",
+      "abstract": "Trastuzumab deruxtecan (T-DXd) demonstrated superior progression-free survival compared with trastuzumab emtansine (T-DM1) in patients with HER2-positive metastatic breast cancer previously treated with trastuzumab and a taxane. Median PFS was 28.8 months vs. 6.8 months."
+    },
+    {
+      "pmid": "36493800",
+      "title": "T-DXd in HER2-Low Breast Cancer: DESTINY-Breast04 Results",
+      "journal": "New England Journal of Medicine",
+      "year": "2022",
+      "abstract": "Trastuzumab deruxtecan significantly improved progression-free and overall survival versus physician's choice chemotherapy in patients with HER2-low metastatic breast cancer. This trial redefines HER2-low as a distinct targetable population beyond HER2-positive disease."
+    },
+    {
+      "pmid": "37530830",
+      "title": "Tucatinib combined with trastuzumab and capecitabine for HER2-positive metastatic breast cancer (HER2CLIMB-02)",
+      "journal": "Lancet Oncology",
+      "year": "2023",
+      "abstract": "The HER2CLIMB-02 trial demonstrated that adding tucatinib to T-DM1 improved progression-free survival in HER2-positive metastatic breast cancer. The combination showed particular benefit in patients with brain metastases, a challenging population with limited treatment options."
+    },
+    {
+      "pmid": "36701948",
+      "title": "Mechanisms of resistance to HER2-targeted therapies in breast cancer",
+      "journal": "Cancer Discovery",
+      "year": "2023",
+      "abstract": "Primary and acquired resistance to HER2-targeted agents involves HER2 mutation, PI3K/AKT pathway activation, RAS-MAPK signaling, and altered receptor recycling. Combination strategies targeting bypass pathways represent the next therapeutic frontier in HER2-positive disease."
+    },
+    {
+      "pmid": "37052877",
+      "title": "Neratinib for HER2-mutant non-breast cancers: pan-tumor analysis",
+      "journal": "Journal of Clinical Oncology",
+      "year": "2023",
+      "abstract": "HER2-activating mutations occur across multiple tumor types including lung, colorectal, biliary, and bladder cancers. Neratinib demonstrated activity across histologies, supporting HER2 mutation as a tissue-agnostic biomarker for targeted therapy selection."
+    },
+    {
+      "pmid": "36472403",
+      "title": "DESTINY-Breast05: T-DXd versus T-DM1 in residual HER2-positive early breast cancer",
+      "journal": "Journal of Clinical Oncology",
+      "year": "2023",
+      "abstract": "DESTINY-Breast05 investigates T-DXd versus T-DM1 in patients with HER2-positive early breast cancer with residual disease after neoadjuvant therapy. Interim data show favorable pathological complete response improvement with T-DXd in high-risk populations."
+    },
+    {
+      "pmid": "37288138",
+      "title": "HER2 heterogeneity and clonal evolution under targeted therapy pressure",
+      "journal": "Nature Cancer",
+      "year": "2023",
+      "abstract": "Intra-tumor HER2 heterogeneity contributes to therapeutic escape under anti-HER2 pressure. Single-cell sequencing reveals clonal dynamics during HER2-targeted therapy, with non-HER2-amplified clones expanding during treatment and driving acquired resistance."
+    },
+    {
+      "pmid": "37143028",
+      "title": "Antibody-drug conjugate payloads and bystander effects in HER2-positive tumors",
+      "journal": "Cancer Cell",
+      "year": "2023",
+      "abstract": "T-DXd's membrane-permeable DXd payload mediates potent bystander killing of adjacent HER2-negative tumor cells, explaining its activity in HER2-heterogeneous and HER2-low tumors. Linker stability and drug-to-antibody ratio optimization remain active areas of ADC development."
+    },
+    {
+      "pmid": "36621026",
+      "title": "Interstitial lung disease with trastuzumab deruxtecan: incidence, management, and risk factors",
+      "journal": "Annals of Oncology",
+      "year": "2023",
+      "abstract": "ILD/pneumonitis occurred in 12.1% of T-DXd-treated patients, with 1.9% grade 5 events. Risk factors include prior ILD, high-dose corticosteroid use, and smoking history. Standardized monitoring protocols and early intervention reduce severity and treatment discontinuation."
+    },
+    {
+      "pmid": "37435041",
+      "title": "ctDNA dynamics as a predictive biomarker for HER2-targeted therapy response",
+      "journal": "Nature Medicine",
+      "year": "2023",
+      "abstract": "Early ctDNA clearance during anti-HER2 therapy predicts pathological complete response and long-term survival. Liquid biopsy monitoring of HER2 amplification and co-occurring mutations provides real-time pharmacodynamic readouts superior to imaging alone."
+    },
+    {
+      "pmid": "36919416",
+      "title": "Pyrotinib plus capecitabine versus lapatinib plus capecitabine for HER2-positive metastatic breast cancer (PHOEBE trial)",
+      "journal": "Journal of Clinical Oncology",
+      "year": "2023",
+      "abstract": "Pyrotinib demonstrated superior progression-free survival compared with lapatinib in HER2-positive metastatic breast cancer, establishing it as an effective second-line TKI option in Asian patient populations. The trial highlights geographic variation in HER2-targeted therapy outcomes."
+    },
+    {
+      "pmid": "37184248",
+      "title": "DESTINY-Breast06: T-DXd in HER2-ultralow and HER2-low breast cancer",
+      "journal": "New England Journal of Medicine",
+      "year": "2024",
+      "abstract": "T-DXd significantly improved progression-free survival versus chemotherapy in HER2-low and HER2-ultralow hormone receptor-positive metastatic breast cancer. These data further expand the targetable HER2 population and challenge traditional HER2 testing classification cutoffs."
+    }
+  ]
+}

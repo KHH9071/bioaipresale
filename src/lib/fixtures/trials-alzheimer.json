@@ -1,0 +1,113 @@
+{
+  "studies": [
+    {
+      "nctId": "NCT03887455",
+      "title": "CLARITY AD: A Study of Lecanemab in Participants With Early Alzheimer's Disease",
+      "phase": "Phase III",
+      "status": "Completed",
+      "sponsor": "Eisai Inc.",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04437511",
+      "title": "AHEAD 3-45: A Study to Evaluate Efficacy and Safety of Lecanemab in Participants With Preclinical Alzheimer's Disease",
+      "phase": "Phase III",
+      "status": "Recruiting",
+      "sponsor": "Eisai Inc.",
+      "condition": "Preclinical Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04468659",
+      "title": "TRAILBLAZER-ALZ 2: A Study of Donanemab Versus Placebo in Participants With Early Symptomatic Alzheimer's Disease",
+      "phase": "Phase III",
+      "status": "Completed",
+      "sponsor": "Eli Lilly",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05026866",
+      "title": "TRAILBLAZER-ALZ 3: Prevention Study of Donanemab in Cognitively Unimpaired Participants",
+      "phase": "Phase III",
+      "status": "Recruiting",
+      "sponsor": "Eli Lilly",
+      "condition": "Preclinical Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04241068",
+      "title": "GRADUATE I: A Study of Gantenerumab in Early Alzheimer's Disease",
+      "phase": "Phase III",
+      "status": "Completed",
+      "sponsor": "Hoffmann-La Roche",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04374253",
+      "title": "PROMETHEUS: A Study of Remternetug in Participants With Early Alzheimer's Disease",
+      "phase": "Phase III",
+      "status": "Recruiting",
+      "sponsor": "Eli Lilly",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05765006",
+      "title": "CREAD3: Crenezumab in Participants With Prodromal to Mild Alzheimer's Disease",
+      "phase": "Phase II/III",
+      "status": "Active",
+      "sponsor": "Hoffmann-La Roche",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT03444870",
+      "title": "A4 Study: Anti-Amyloid Treatment in Asymptomatic Alzheimer's",
+      "phase": "Phase III",
+      "status": "Active",
+      "sponsor": "Eli Lilly",
+      "condition": "Preclinical Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04685330",
+      "title": "TREM2-Targeting Immunotherapy in Early Alzheimer's Disease: Safety and Biomarker Study",
+      "phase": "Phase II",
+      "status": "Recruiting",
+      "sponsor": "Alector",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05004129",
+      "title": "LIBERATE: Lecanemab Open-Label Extension for Long-Term Safety and Efficacy",
+      "phase": "Phase III",
+      "status": "Recruiting",
+      "sponsor": "Eisai Inc.",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04576091",
+      "title": "Tau Targeted Therapy With JNJ-63733657 in Prodromal Alzheimer's Disease",
+      "phase": "Phase II",
+      "status": "Completed",
+      "sponsor": "Janssen Research",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT03531710",
+      "title": "BAN2401 Open-Label Extension Study in Early Alzheimer's Disease",
+      "phase": "Phase III",
+      "status": "Active",
+      "sponsor": "Eisai Inc.",
+      "condition": "Alzheimer's Disease",
+      "country": "United States"
+    }
+  ],
+  "total": 12
+}

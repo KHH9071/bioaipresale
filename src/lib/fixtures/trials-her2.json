@@ -1,0 +1,113 @@
+{
+  "studies": [
+    {
+      "nctId": "NCT03529110",
+      "title": "DESTINY-Breast03: T-DXd vs. T-DM1 in HER2-Positive Metastatic Breast Cancer",
+      "phase": "Phase III",
+      "status": "Completed",
+      "sponsor": "AstraZeneca",
+      "condition": "HER2-Positive Breast Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT03734029",
+      "title": "DESTINY-Breast04: T-DXd in HER2-Low Breast Cancer",
+      "phase": "Phase III",
+      "status": "Completed",
+      "sponsor": "AstraZeneca",
+      "condition": "HER2-Low Breast Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04622319",
+      "title": "DESTINY-Breast05: T-DXd vs. T-DM1 in Residual HER2-Positive Early Breast Cancer",
+      "phase": "Phase III",
+      "status": "Recruiting",
+      "sponsor": "AstraZeneca",
+      "condition": "HER2-Positive Breast Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04494425",
+      "title": "DESTINY-Breast06: T-DXd in HER2-Low and HER2-Ultralow Breast Cancer",
+      "phase": "Phase III",
+      "status": "Completed",
+      "sponsor": "AstraZeneca",
+      "condition": "HER2-Low Breast Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04539938",
+      "title": "HER2CLIMB-02: Tucatinib Plus T-DM1 for HER2-Positive Metastatic Breast Cancer",
+      "phase": "Phase III",
+      "status": "Completed",
+      "sponsor": "Seagen",
+      "condition": "HER2-Positive Breast Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05382117",
+      "title": "DESTINY-Breast12: T-DXd in HER2-Positive Breast Cancer With Brain Metastases",
+      "phase": "Phase III",
+      "status": "Active",
+      "sponsor": "AstraZeneca",
+      "condition": "HER2-Positive Breast Cancer With Brain Metastases",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04784715",
+      "title": "SOPHIA Extension: Margetuximab Plus Chemotherapy in Pretreated HER2-Positive Metastatic Breast Cancer",
+      "phase": "Phase III",
+      "status": "Active",
+      "sponsor": "MacroGenics",
+      "condition": "HER2-Positive Breast Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05009082",
+      "title": "NATALIA: Neratinib Plus Talazoparib in HER2-Mutant Solid Tumors",
+      "phase": "Phase II",
+      "status": "Recruiting",
+      "sponsor": "Pfizer",
+      "condition": "HER2-Mutant Solid Tumors",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT03523585",
+      "title": "CompassHER2 RD: Trastuzumab Deruxtecan After Neoadjuvant Chemotherapy in HER2-Positive Early Breast Cancer",
+      "phase": "Phase II",
+      "status": "Active",
+      "sponsor": "Alliance Foundation Trials",
+      "condition": "HER2-Positive Early Breast Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04740918",
+      "title": "PHOEBE-2: Pyrotinib in HER2-Positive Breast Cancer With Brain Metastases",
+      "phase": "Phase II",
+      "status": "Recruiting",
+      "sponsor": "Jiangsu Hengrui",
+      "condition": "HER2-Positive Breast Cancer With Brain Metastases",
+      "country": "China"
+    },
+    {
+      "nctId": "NCT05069688",
+      "title": "ZN-A-1041 in HER2-Positive or HER2-Mutated Solid Tumors",
+      "phase": "Phase I/II",
+      "status": "Recruiting",
+      "sponsor": "Zymeworks",
+      "condition": "HER2-Positive Solid Tumors",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04554199",
+      "title": "KATE3: Atezolizumab Plus T-DM1 in HER2-Positive Early Breast Cancer",
+      "phase": "Phase III",
+      "status": "Active",
+      "sponsor": "Hoffmann-La Roche",
+      "condition": "HER2-Positive Early Breast Cancer",
+      "country": "United States"
+    }
+  ],
+  "total": 12
+}

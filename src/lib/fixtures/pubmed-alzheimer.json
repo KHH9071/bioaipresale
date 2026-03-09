@@ -1,0 +1,88 @@
+{
+  "papers": [
+    {
+      "pmid": "36522984",
+      "title": "Lecanemab in Early Alzheimer's Disease",
+      "journal": "New England Journal of Medicine",
+      "year": "2023",
+      "abstract": "Lecanemab, a humanized IgG1 monoclonal antibody targeting amyloid-beta protofibrils, reduced markers of amyloid in early Alzheimer's disease and resulted in moderately less decline on measures of cognition and function than placebo at 18 months. The CLARITY AD trial demonstrated 27% slowing of clinical decline."
+    },
+    {
+      "pmid": "37471862",
+      "title": "Amyloid-beta clearance and cognitive outcomes in early Alzheimer's disease: a systematic review",
+      "journal": "Lancet Neurology",
+      "year": "2023",
+      "abstract": "Anti-amyloid immunotherapy trials show consistent amyloid clearance but variable cognitive effects. ARIA (amyloid-related imaging abnormalities) remains a key safety concern. Patient selection by amyloid PET or CSF biomarkers is critical for trial eligibility and benefit-risk optimization."
+    },
+    {
+      "pmid": "37088487",
+      "title": "Tau PET imaging as a prognostic biomarker in Alzheimer's disease",
+      "journal": "JAMA Neurology",
+      "year": "2023",
+      "abstract": "Tau PET burden predicts cognitive decline trajectory with greater precision than amyloid PET alone. Combining amyloid and tau biomarkers enables stage-specific patient stratification for clinical trials and treatment monitoring in Alzheimer's disease."
+    },
+    {
+      "pmid": "36701174",
+      "title": "Blood-based biomarkers for Alzheimer's disease: plasma phospho-tau217 and amyloid ratios",
+      "journal": "Nature Medicine",
+      "year": "2023",
+      "abstract": "Plasma phospho-tau217 and the amyloid-beta 42/40 ratio show high diagnostic accuracy for detecting amyloid pathology. These blood-based tests could enable scalable screening for clinical trials and treatment eligibility without requiring PET imaging or lumbar puncture."
+    },
+    {
+      "pmid": "36996189",
+      "title": "Donanemab in Early Symptomatic Alzheimer's Disease: The TRAILBLAZER-ALZ 2 Randomized Clinical Trial",
+      "journal": "JAMA",
+      "year": "2023",
+      "abstract": "Donanemab significantly slowed clinical progression of Alzheimer's disease compared with placebo in participants with early symptomatic disease. Among participants with low/medium tau burden, iADRS declined 35.1% less than with placebo. ARIA incidence was 36.8%."
+    },
+    {
+      "pmid": "36548148",
+      "title": "Neuroinflammation in Alzheimer's disease: microglia and TREM2 pathway",
+      "journal": "Cell",
+      "year": "2023",
+      "abstract": "TREM2 signaling in microglia plays a central role in the neuroinflammatory response to amyloid-beta plaques and tau tangles. Modulating microglial activation through TREM2 represents a promising therapeutic target beyond amyloid clearance."
+    },
+    {
+      "pmid": "37199344",
+      "title": "APOE4 genotype and amyloid immunotherapy outcomes in Alzheimer's disease",
+      "journal": "Nature Genetics",
+      "year": "2023",
+      "abstract": "APOE4 carriers show higher rates of ARIA but also greater amyloid clearance with anti-amyloid therapy. Genotype-stratified trial designs may optimize benefit-risk profiles for lecanemab and donanemab in APOE4 heterozygotes and homozygotes."
+    },
+    {
+      "pmid": "37463519",
+      "title": "FDA approval of lecanemab: implications for clinical practice and payer coverage",
+      "journal": "NEJM Evidence",
+      "year": "2023",
+      "abstract": "Full FDA approval of lecanemab under the traditional pathway followed accelerated approval, triggering Medicare coverage. Implementation challenges include amyloid confirmation testing, ARIA monitoring infrastructure, and identifying appropriate early-AD patient populations in clinical practice."
+    },
+    {
+      "pmid": "36315153",
+      "title": "Synaptic loss as a primary driver of cognitive decline in Alzheimer's disease",
+      "journal": "Brain",
+      "year": "2022",
+      "abstract": "Synaptic density measured by SV2A PET correlates more strongly with cognitive performance than amyloid or tau load. Synapse-preserving endpoints may provide more sensitive clinical trial measures, particularly in early and preclinical stages."
+    },
+    {
+      "pmid": "37528188",
+      "title": "Real-world implementation of anti-amyloid therapy: site readiness and patient selection challenges",
+      "journal": "Alzheimer's & Dementia",
+      "year": "2023",
+      "abstract": "Survey of 142 academic medical centers reveals significant gaps in infusion capacity, amyloid testing access, and MRI monitoring protocols. Approximately 30% of centers lack infrastructure for safe lecanemab administration, highlighting the need for decentralized trial and treatment models."
+    },
+    {
+      "pmid": "36872443",
+      "title": "Longitudinal plasma biomarkers for monitoring Alzheimer's disease treatment response",
+      "journal": "Science Translational Medicine",
+      "year": "2023",
+      "abstract": "Serial plasma phospho-tau181 and GFAP measurements track amyloid reduction and neuroinflammatory response during anti-amyloid therapy. These non-invasive monitoring tools may enable cost-effective treatment response assessment in real-world clinical settings."
+    },
+    {
+      "pmid": "37391154",
+      "title": "Genetic architecture of late-onset Alzheimer's disease: GWAS and polygenic risk",
+      "journal": "Nature Neuroscience",
+      "year": "2023",
+      "abstract": "Genome-wide association analysis identifies 75 risk loci for late-onset Alzheimer's disease, with APOE, BIN1, CLU, CR1, and PICALM among the most significant. Polygenic risk scores stratify population-level risk and may guide presymptomatic intervention trial enrollment."
+    }
+  ]
+}

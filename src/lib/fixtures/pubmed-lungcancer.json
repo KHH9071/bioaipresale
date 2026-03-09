@@ -1,0 +1,88 @@
+{
+  "papers": [
+    {
+      "pmid": "37824988",
+      "title": "KRAS G12C Inhibition with Sotorasib in Pretreated Non-Small-Cell Lung Cancer",
+      "journal": "New England Journal of Medicine",
+      "year": "2023",
+      "abstract": "Sotorasib demonstrated durable clinical benefit in patients with previously treated KRAS G12C-mutated non-small-cell lung cancer. Objective response rate was 37.1% with a median duration of response of 11.1 months. This study confirms KRAS G12C as a clinically actionable target."
+    },
+    {
+      "pmid": "37562121",
+      "title": "Resistance mechanisms to KRAS G12C inhibitors in non-small cell lung cancer",
+      "journal": "Cancer Cell",
+      "year": "2023",
+      "abstract": "Acquired resistance to KRAS G12C inhibitors involves multiple mechanisms including secondary KRAS mutations, bypass pathway activation, and histological transformation. Understanding resistance is critical for developing combination strategies and next-generation inhibitors."
+    },
+    {
+      "pmid": "36944262",
+      "title": "Adagrasib in Non-Small-Cell Lung Cancer Harboring a KRAS G12C Mutation",
+      "journal": "New England Journal of Medicine",
+      "year": "2023",
+      "abstract": "Adagrasib showed an objective response rate of 43.5% in patients with KRAS G12C-mutated NSCLC. The median progression-free survival was 6.5 months. Intracranial activity was also observed in patients with brain metastases."
+    },
+    {
+      "pmid": "36693306",
+      "title": "PD-L1 expression and tumor mutational burden as predictive biomarkers for immunotherapy in KRAS-mutant lung adenocarcinoma",
+      "journal": "Journal of Thoracic Oncology",
+      "year": "2023",
+      "abstract": "PD-L1 expression and TMB were evaluated as predictive biomarkers in KRAS-mutant NSCLC patients receiving immunotherapy. Co-mutations in STK11 and KEAP1 significantly reduced immunotherapy benefit regardless of PD-L1 status."
+    },
+    {
+      "pmid": "36356028",
+      "title": "Combination strategies targeting KRAS G12C in non-small-cell lung cancer: a systematic review",
+      "journal": "Lancet Oncology",
+      "year": "2022",
+      "abstract": "Combination approaches including KRAS G12C inhibitors with SHP2, MEK, SOS1, or immune checkpoint inhibitors are in active clinical development. Early data suggest synergistic activity with tolerable safety profiles in heavily pretreated NSCLC."
+    },
+    {
+      "pmid": "35987823",
+      "title": "Liquid biopsy for KRAS G12C mutation detection and treatment monitoring in NSCLC",
+      "journal": "Journal of Clinical Oncology",
+      "year": "2022",
+      "abstract": "Circulating tumor DNA analysis reliably detected KRAS G12C mutations and tracked clonal dynamics during sotorasib treatment. ctDNA clearance at week 3 correlated with improved progression-free survival, supporting liquid biopsy as a monitoring biomarker."
+    },
+    {
+      "pmid": "35712449",
+      "title": "Real-world outcomes of sotorasib in KRAS G12C-mutant non-small-cell lung cancer",
+      "journal": "Annals of Oncology",
+      "year": "2022",
+      "abstract": "Real-world data confirmed sotorasib efficacy comparable to clinical trial results, with an ORR of 35.2% and median OS of 12.4 months. Patients with prior immunotherapy showed similar outcomes to those without prior checkpoint inhibitor exposure."
+    },
+    {
+      "pmid": "35448844",
+      "title": "Tumor heterogeneity and KRAS co-mutations influence response to KRAS G12C inhibition",
+      "journal": "Nature Medicine",
+      "year": "2022",
+      "abstract": "Spatial tumor heterogeneity and co-occurring mutations in TP53, KEAP1, and STK11 modulate response durability to KRAS G12C inhibitors. Single-cell analysis revealed distinct subpopulations with intrinsic resistance mechanisms."
+    },
+    {
+      "pmid": "35301834",
+      "title": "SOS1 inhibition enhances KRAS G12C blockade in preclinical models of lung cancer",
+      "journal": "Science Translational Medicine",
+      "year": "2022",
+      "abstract": "Combined inhibition of SOS1 and KRAS G12C demonstrated synergistic antitumor activity in NSCLC cell lines and xenograft models, reducing adaptive resistance through MAPK reactivation. Clinical trials evaluating this combination are ongoing."
+    },
+    {
+      "pmid": "34903584",
+      "title": "KRAS mutation prevalence and co-mutation landscape in lung adenocarcinoma from a large genomic database",
+      "journal": "Journal of Thoracic Oncology",
+      "year": "2022",
+      "abstract": "Analysis of 12,000+ lung adenocarcinoma samples revealed KRAS mutation prevalence of 32%, with G12C being the most common variant. Co-mutations in STK11, KEAP1, and TP53 defined distinct molecular subtypes with different therapeutic implications."
+    },
+    {
+      "pmid": "34823272",
+      "title": "Osimertinib plus sotorasib for EGFR-mutant NSCLC with acquired KRAS G12C resistance",
+      "journal": "Cancer Discovery",
+      "year": "2022",
+      "abstract": "Acquired KRAS G12C mutations emerged as a mechanism of osimertinib resistance in a subset of EGFR-mutant NSCLC patients. Combined EGFR and KRAS G12C inhibition demonstrated clinical activity in this rare but actionable resistance mechanism."
+    },
+    {
+      "pmid": "34731898",
+      "title": "Immune microenvironment remodeling by KRAS G12C inhibitors in non-small-cell lung cancer",
+      "journal": "Cancer Immunology Research",
+      "year": "2022",
+      "abstract": "KRAS G12C inhibition with sotorasib remodeled the tumor immune microenvironment, increasing CD8+ T cell infiltration and reducing immunosuppressive myeloid cells. These findings support rationale for combination with immune checkpoint inhibitors."
+    }
+  ]
+}

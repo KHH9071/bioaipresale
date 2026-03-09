@@ -1,0 +1,113 @@
+{
+  "studies": [
+    {
+      "nctId": "NCT04625647",
+      "title": "CodeBreaK 200: A Phase 3 Study Comparing Sotorasib Versus Docetaxel in KRAS G12C Mutated NSCLC",
+      "phase": "Phase III",
+      "status": "COMPLETED",
+      "sponsor": "Amgen",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT03600883",
+      "title": "KRYSTAL-1: Adagrasib in Subjects With Advanced Solid Tumors With KRAS G12C Mutation",
+      "phase": "Phase I/II",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "sponsor": "Mirati Therapeutics",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04685135",
+      "title": "CodeBreaK 101: Sotorasib in Combination With Other Anticancer Therapies in Subjects With Advanced Solid Tumors",
+      "phase": "Phase I/II",
+      "status": "RECRUITING",
+      "sponsor": "Amgen",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05288933",
+      "title": "KRYSTAL-7: Adagrasib Plus Pembrolizumab Versus Pembrolizumab Plus Chemotherapy in KRAS G12C-Mutated NSCLC",
+      "phase": "Phase III",
+      "status": "RECRUITING",
+      "sponsor": "Mirati Therapeutics",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05389241",
+      "title": "Sotorasib Plus Pembrolizumab in First-Line KRAS G12C-Mutated NSCLC",
+      "phase": "Phase III",
+      "status": "RECRUITING",
+      "sponsor": "Amgen",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT04699188",
+      "title": "Divarasib (GDC-6036) in Patients With KRAS G12C-Positive Advanced or Metastatic Solid Tumors",
+      "phase": "Phase I",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "sponsor": "Genentech",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05198934",
+      "title": "JDQ443 in Patients With KRAS G12C Mutant Advanced Solid Tumors",
+      "phase": "Phase I/II",
+      "status": "RECRUITING",
+      "sponsor": "Novartis",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "Switzerland"
+    },
+    {
+      "nctId": "NCT05015010",
+      "title": "Glecirasib (JAB-21822) in Patients With KRAS G12C Mutant Advanced Solid Tumors",
+      "phase": "Phase I/II",
+      "status": "RECRUITING",
+      "sponsor": "Jacobio Pharmaceuticals",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "China"
+    },
+    {
+      "nctId": "NCT04849845",
+      "title": "LY3537982 in Participants With Tumors That Have a KRAS G12C Mutation",
+      "phase": "Phase I",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "sponsor": "Eli Lilly",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "United States"
+    },
+    {
+      "nctId": "NCT05517421",
+      "title": "GH35 in Patients With KRAS G12C Mutation-Positive Advanced Solid Tumors",
+      "phase": "Phase I",
+      "status": "RECRUITING",
+      "sponsor": "Gehena Biotech",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "South Korea"
+    },
+    {
+      "nctId": "NCT05159167",
+      "title": "BI 1823911 Plus BI 3406 in Patients With KRAS G12C Mutated Solid Tumours",
+      "phase": "Phase I/II",
+      "status": "RECRUITING",
+      "sponsor": "Boehringer Ingelheim",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "Germany"
+    },
+    {
+      "nctId": "NCT04330664",
+      "title": "Phase 1 Study of MRTX849 in Patients With Cancer Having a KRAS G12C Mutation",
+      "phase": "Phase I",
+      "status": "COMPLETED",
+      "sponsor": "Mirati Therapeutics",
+      "condition": "Non-Small Cell Lung Cancer",
+      "country": "United States"
+    }
+  ],
+  "total": 12
+}
