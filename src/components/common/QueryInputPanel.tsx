@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useQuery } from '@/lib/query-context'
-import type { BusinessObjective, Region, TimeYears } from '@/lib/types'
+import type { BusinessObjective, Region, TimeYears, ProblemDomain, DataMaturity } from '@/lib/types'
 import styles from './QueryInputPanel.module.css'
 
 const PRESETS = [
@@ -15,6 +15,8 @@ const PRESETS = [
     objective: 'literature_intelligence' as BusinessObjective,
     region: 'Global' as Region,
     timeYears: 5 as TimeYears,
+    problemDomain: 'literature_regulatory' as ProblemDomain,
+    dataMaturity: 'developing' as DataMaturity,
   },
   {
     label: '알츠하이머 / Amyloid-β',
@@ -24,6 +26,8 @@ const PRESETS = [
     objective: 'trial_scouting' as BusinessObjective,
     region: 'US' as Region,
     timeYears: 3 as TimeYears,
+    problemDomain: 'trial_competitive' as ProblemDomain,
+    dataMaturity: 'developing' as DataMaturity,
   },
   {
     label: 'HER2+ 유방암',
@@ -33,6 +37,30 @@ const PRESETS = [
     objective: 'label_regulatory' as BusinessObjective,
     region: 'Global' as Region,
     timeYears: 5 as TimeYears,
+    problemDomain: 'literature_regulatory' as ProblemDomain,
+    dataMaturity: 'developing' as DataMaturity,
+  },
+  {
+    label: '★ 데이터 플랫폼 시나리오 — EDP',
+    disease: '',
+    target: '',
+    drug: '',
+    objective: 'scientific_qa' as BusinessObjective,
+    region: 'Global' as Region,
+    timeYears: 5 as TimeYears,
+    problemDomain: 'data_infrastructure' as ProblemDomain,
+    dataMaturity: 'developing' as DataMaturity,
+  },
+  {
+    label: '★ 신약 발굴 시나리오 — 구조 예측',
+    disease: 'Parkinson disease',
+    target: 'LRRK2',
+    drug: '',
+    objective: 'scientific_qa' as BusinessObjective,
+    region: 'Global' as Region,
+    timeYears: 5 as TimeYears,
+    problemDomain: 'drug_discovery_computational' as ProblemDomain,
+    dataMaturity: 'nascent' as DataMaturity,
   },
 ]
 
@@ -67,6 +95,8 @@ export default function QueryInputPanel() {
       objective: preset.objective,
       region: preset.region,
       timeYears: preset.timeYears,
+      problemDomain: preset.problemDomain,
+      dataMaturity: preset.dataMaturity,
     })
   }
 
@@ -74,8 +104,8 @@ export default function QueryInputPanel() {
     <div className={styles.panel}>
       <div className={styles.appHeader}>
         <div>
-          <div className={styles.appTitle}>Bio AI Presales 데모 콘솔</div>
-          <div className={styles.appSubtitle}>공개 근거 데이터를 바탕으로 고객 과제를 PoC 제안으로 구조화하는 데모</div>
+          <div className={styles.appTitle}>Bio AI Presales 진단 콘솔</div>
+          <div className={styles.appSubtitle}>고객 문제 유형을 6개 Bio AI 솔루션 경로로 진단하고 PoC 제안을 구조화합니다</div>
         </div>
         <button
           className={`${styles.captureBtn} ${captureMode ? styles.captureBtnActive : ''}`}
@@ -122,6 +152,21 @@ export default function QueryInputPanel() {
 
         <div className={styles.rowWide}>
           <div className={styles.field}>
+            <label className={styles.label}>문제 유형</label>
+            <select
+              className={styles.select}
+              value={input.problemDomain}
+              onChange={(e) => setInput({ problemDomain: e.target.value as ProblemDomain })}
+            >
+              <option value="literature_regulatory">문헌 / 규제 인텔리전스</option>
+              <option value="trial_competitive">임상 / 경쟁 인텔리전스</option>
+              <option value="data_infrastructure">데이터 인프라 / 플랫폼 구축</option>
+              <option value="drug_discovery_computational">신약 발굴 / 컴퓨테이셔널 분석</option>
+              <option value="patient_digital_health">환자 데이터 / 디지털 헬스</option>
+              <option value="kol_landscape">KOL / 랜드스케이프 인텔리전스</option>
+            </select>
+          </div>
+          <div className={styles.field}>
             <label className={styles.label}>비즈니스 목표</label>
             <select
               className={styles.select}
@@ -133,6 +178,18 @@ export default function QueryInputPanel() {
               <option value="label_regulatory">라벨 / 규제 인텔리전스</option>
               <option value="scientific_qa">과학 Q&amp;A</option>
               <option value="kol_sponsor_landscape">KOL / 스폰서 랜드스케이프</option>
+            </select>
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>데이터 성숙도</label>
+            <select
+              className={styles.select}
+              value={input.dataMaturity}
+              onChange={(e) => setInput({ dataMaturity: e.target.value as DataMaturity })}
+            >
+              <option value="nascent">초기 단계 (분산·비구조화)</option>
+              <option value="developing">개발 중 (일부 구조화)</option>
+              <option value="established">성숙 단계 (통합 파이프라인)</option>
             </select>
           </div>
           <div className={styles.field}>
@@ -163,7 +220,7 @@ export default function QueryInputPanel() {
           <div className={styles.field} style={{ justifyContent: 'flex-end' }}>
             <label className={styles.label}>&nbsp;</label>
             <button className={styles.submitBtn} onClick={submitSearch}>
-              기회 분석 실행
+              진단 실행
             </button>
           </div>
         </div>

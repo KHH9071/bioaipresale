@@ -1,9 +1,31 @@
 'use client'
 
+import { useQuery } from '@/lib/query-context'
+import { getArchPattern } from '@/lib/rules/architecture-patterns'
 import SectionHeader from '@/components/common/SectionHeader'
 import styles from './architecture.module.css'
 
-const BLOCKS = [
+const LAYER_LABELS: Record<string, string> = {
+  source: '데이터 소스',
+  processing: '처리',
+  intelligence: '인텔리전스',
+  delivery: '딜리버리',
+  observability: '관측성',
+  ingestion: '수집',
+  analysis: '분석',
+  storage: '스토리지',
+  visualization: '시각화',
+  governance: '거버넌스',
+  pipeline: '파이프라인',
+  integration: '연동',
+  workflow: '워크플로우',
+  network: '네트워크',
+}
+
+const LAYER_ORDER = ['source', 'processing', 'intelligence', 'delivery', 'observability']
+
+// Legacy static data kept for reference (replaced by architecture-patterns.ts)
+const _BLOCKS = [
   {
     id: 'public-data',
     label: '외부 공개 데이터',
@@ -95,95 +117,53 @@ const GOVERNANCE = [
 ]
 
 export default function ArchitecturePage() {
+  const { state } = useQuery()
+  const { solutionRoute } = state
+
+  const area = solutionRoute?.area ?? 'genai'
+  const pattern = getArchPattern(area)
+
+  const layers = Array.from(new Set(pattern.blocks.map((b) => b.layer)))
+  const orderedLayers = [
+    ...LAYER_ORDER.filter((l) => layers.includes(l)),
+    ...layers.filter((l) => !LAYER_ORDER.includes(l)),
+  ]
+
   return (
     <div>
       <SectionHeader
         title="참조 아키텍처"
-        subtitle="Bio AI 근거 탐색 및 제안 워크플로우를 위한 클라우드 준비 패턴"
+        subtitle={pattern.subtitle}
       />
 
       <div className={styles.content}>
+        {/* Pattern title badge */}
+        <div className={styles.patternHeader}>
+          <span className={styles.patternBadge}>{area.toUpperCase()}</span>
+          <span className={styles.patternTitle}>{pattern.title}</span>
+        </div>
+
         {/* Architecture Diagram */}
         <div className={styles.diagramSection}>
           <div className={styles.sectionLabel}>아키텍처 블록</div>
           <div className={styles.diagram}>
-            {/* Layer: Data Sources */}
-            <div className={styles.layerRow}>
-              <div className={styles.layerLabel}>데이터 소스</div>
-              <div className={styles.layerBlocks}>
-                {BLOCKS.filter(b => b.layer === 'source').map(block => (
-                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
-                    <div className={styles.blockDot} style={{ background: block.color }} />
-                    <div className={styles.blockName}>{block.label}</div>
-                    <div className={styles.tooltip}>{block.description}</div>
+            {orderedLayers.map((layer, i) => (
+              <div key={layer}>
+                <div className={styles.layerRow}>
+                  <div className={styles.layerLabel}>{LAYER_LABELS[layer] ?? layer}</div>
+                  <div className={styles.layerBlocks}>
+                    {pattern.blocks.filter((b) => b.layer === layer).map((block) => (
+                      <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
+                        <div className={styles.blockDot} style={{ background: block.color }} />
+                        <div className={styles.blockName}>{block.label}</div>
+                        <div className={styles.tooltip}>{block.description}</div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
+                {i < orderedLayers.length - 1 && <div className={styles.arrow}>↓</div>}
               </div>
-            </div>
-
-            <div className={styles.arrow}>↓</div>
-
-            {/* Layer: Processing */}
-            <div className={styles.layerRow}>
-              <div className={styles.layerLabel}>처리</div>
-              <div className={styles.layerBlocks}>
-                {BLOCKS.filter(b => b.layer === 'processing').map(block => (
-                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
-                    <div className={styles.blockDot} style={{ background: block.color }} />
-                    <div className={styles.blockName}>{block.label}</div>
-                    <div className={styles.tooltip}>{block.description}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.arrow}>↓</div>
-
-            {/* Layer: Intelligence */}
-            <div className={styles.layerRow}>
-              <div className={styles.layerLabel}>인텔리전스</div>
-              <div className={styles.layerBlocks}>
-                {BLOCKS.filter(b => b.layer === 'intelligence').map(block => (
-                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
-                    <div className={styles.blockDot} style={{ background: block.color }} />
-                    <div className={styles.blockName}>{block.label}</div>
-                    <div className={styles.tooltip}>{block.description}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.arrow}>↓</div>
-
-            {/* Layer: Delivery */}
-            <div className={styles.layerRow}>
-              <div className={styles.layerLabel}>딜리버리</div>
-              <div className={styles.layerBlocks}>
-                {BLOCKS.filter(b => b.layer === 'delivery').map(block => (
-                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
-                    <div className={styles.blockDot} style={{ background: block.color }} />
-                    <div className={styles.blockName}>{block.label}</div>
-                    <div className={styles.tooltip}>{block.description}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.arrow}>↓</div>
-
-            {/* Layer: Observability */}
-            <div className={styles.layerRow}>
-              <div className={styles.layerLabel}>관측성</div>
-              <div className={styles.layerBlocks}>
-                {BLOCKS.filter(b => b.layer === 'observability').map(block => (
-                  <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
-                    <div className={styles.blockDot} style={{ background: block.color }} />
-                    <div className={styles.blockName}>{block.label}</div>
-                    <div className={styles.tooltip}>{block.description}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
           <p className={styles.diagramNote}>각 블록에 마우스를 올리면 아키텍처에서의 역할을 확인할 수 있습니다.</p>
         </div>
@@ -191,7 +171,7 @@ export default function ArchitecturePage() {
         {/* Deployment Options */}
         <div className={styles.sectionLabel}>배포 옵션</div>
         <div className={styles.deployCards}>
-          {DEPLOYMENT_OPTIONS.map((opt) => (
+          {pattern.deploymentOptions.map((opt) => (
             <div
               key={opt.title}
               className={styles.deployCard}
@@ -206,7 +186,7 @@ export default function ArchitecturePage() {
         {/* Governance */}
         <div className={styles.sectionLabel}>거버넌스 및 가드레일</div>
         <div className={styles.governanceList}>
-          {GOVERNANCE.map((item) => (
+          {pattern.governance.map((item) => (
             <div key={item.label} className={styles.govItem}>
               <div className={styles.govLabel}>{item.label}</div>
               <div className={styles.govText}>{item.text}</div>
@@ -218,18 +198,12 @@ export default function ArchitecturePage() {
         <div className={styles.deliveryNotes}>
           <div className={styles.sectionLabel}>납품 노트</div>
           <div className={styles.noteGrid}>
-            <div className={styles.noteItem}>
-              <div className={styles.noteTitle}>PoC 범위</div>
-              <p className={styles.noteText}>공개 데이터 한정, 단일 유스케이스, 클라우드 호스팅. 6주 내 시연 가능. 프로덕션 SLA 및 보안 인증 불필요.</p>
-            </div>
-            <div className={styles.noteItem}>
-              <div className={styles.noteTitle}>프로덕션 전환</div>
-              <p className={styles.noteText}>내부 데이터 수집, VPC 격리, SSO, 감사 로깅, SLA 모니터링 추가. 규제 대응 배포 기준 PoC 이후 통상 3~4개월 소요.</p>
-            </div>
-            <div className={styles.noteItem}>
-              <div className={styles.noteTitle}>예상 확장</div>
-              <p className={styles.noteText}>추가 적응증 커버리지, 다국어 지원, 내부 연구 플랫폼 API 연동, 하위 보고서 생성 모듈 확장.</p>
-            </div>
+            {pattern.deliveryNotes.map((note) => (
+              <div key={note.title} className={styles.noteItem}>
+                <div className={styles.noteTitle}>{note.title}</div>
+                <p className={styles.noteText}>{note.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

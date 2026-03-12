@@ -1,0 +1,292 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.conceptNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(240, 136, 62, 0.08);
+  border: 1px solid rgba(240, 136, 62, 0.35);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-size: 12.5px;
+  color: #f0883e;
+  line-height: 1.5;
+}
+
+.conceptNoteIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #f0883e;
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.header {
+  background: var(--bg-surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.patternBadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.areaLabel {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+}
+
+.cardLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.cardText {
+  font-size: 13px;
+  color: var(--fg-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.weekRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 8px 12px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.weekBadge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 2px 6px;
+  margin-top: 1px;
+}
+
+.weekTitle {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 2px;
+}
+
+.weekDesc {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.45;
+}
+
+/* KPI */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.kpiCard {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpiMetric {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.kpiTarget {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.kpiBaseline {
+  font-size: 11px;
+  color: var(--fg-subtle);
+  line-height: 1.4;
+}
+
+/* Data */
+.dataGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.dataSubLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--fg-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.dataList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dataItem {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.4;
+  padding-left: 12px;
+  position: relative;
+}
+
+.dataItem::before {
+  content: '·';
+  position: absolute;
+  left: 3px;
+  color: var(--fg-subtle);
+}
+
+/* Risks */
+.riskList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.riskRow {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.riskText,
+.guardrailText {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.riskText {
+  color: var(--fg-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.guardrailText {
+  color: var(--fg);
+  background: rgba(88, 166, 255, 0.04);
+}
+
+.riskIcon,
+.guardrailIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.riskIcon {
+  background: rgba(248, 81, 73, 0.12);
+  color: #f85149;
+  border: 1px solid #f85149;
+}
+
+.guardrailIcon {
+  background: rgba(63, 185, 80, 0.12);
+  color: #3fb950;
+  border: 1px solid #3fb950;
+}
+
+.placeholder {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+}
+
+.placeholderTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg-muted);
+  margin-bottom: 8px;
+}
+
+.placeholderText {
+  font-size: 13px;
+  color: var(--fg-subtle);
+  line-height: 1.6;
+  margin: 0;
+}

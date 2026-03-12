@@ -2,8 +2,10 @@
 
 import { useState, useRef } from 'react'
 import { useQuery } from '@/lib/query-context'
+import { isGenAIPath } from '@/lib/rules/solution-router'
 import type { PrimaryUser, DataAvailability, DeliveryPreference } from '@/lib/types'
 import SectionHeader from '@/components/common/SectionHeader'
+import NonGenAIPoCPanel from '@/components/poc/NonGenAIPoCPanel'
 import styles from './poc.module.css'
 
 const WEEK_COLORS = ['#58A6FF', '#3FB950', '#D29922', '#BC8CFF', '#F85149', '#8B949E']
@@ -102,7 +104,9 @@ ${pocProposal.risks.map(r => `- ⚠ **${r.risk}** → ✓ ${r.guardrail}`).join(
 
 export default function PoCPage() {
   const { state, setPoCOptions } = useQuery()
-  const { pocProposal, pocOptions, input, hasSearched, opportunity } = state
+  const { pocProposal, pocOptions, solutionRoute, input, hasSearched, opportunity } = state
+
+  const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area)
 
   const [briefOpen, setBriefOpen] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -136,9 +140,11 @@ export default function PoCPage() {
       <div className={styles.content}>
         {!hasSearched ? (
           <div className={styles.empty}>
-            <div className={styles.emptyTitle}>먼저 기회 분석을 실행하세요</div>
-            <p className={styles.emptyText}>상단 폼을 입력하고 기회 분석 실행을 클릭하면 PoC 제안이 생성됩니다.</p>
+            <div className={styles.emptyTitle}>먼저 진단을 실행하세요</div>
+            <p className={styles.emptyText}>문제 유형을 선택하고 진단 실행을 클릭하면 PoC 설계 프레임워크가 생성됩니다.</p>
           </div>
+        ) : !showGenAI && solutionRoute ? (
+          <NonGenAIPoCPanel area={solutionRoute.area} />
         ) : pocProposal ? (
           <>
             {/* Source badge */}

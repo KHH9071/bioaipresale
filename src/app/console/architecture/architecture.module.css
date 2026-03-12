@@ -5,6 +5,34 @@
   gap: 24px;
 }
 
+.patternHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+}
+
+.patternBadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+
+.patternTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
 .sectionLabel {
   font-size: 11px;
   font-weight: 700;

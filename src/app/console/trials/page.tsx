@@ -4,12 +4,14 @@ import { useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { useQuery } from '@/lib/query-context'
 import { fetchTrials } from '@/lib/api/trials'
+import { isGenAIPath } from '@/lib/rules/solution-router'
 import type { ClinicalTrial, PhaseCount, SponsorEntry } from '@/lib/types'
 import SectionHeader from '@/components/common/SectionHeader'
 import InterpretationBox from '@/components/common/InterpretationBox'
 import TrialSummaryCards from '@/components/trials/TrialSummaryCards'
 import SponsorTable from '@/components/trials/SponsorTable'
 import TrialListTable from '@/components/trials/TrialListTable'
+import DataMarketGuide from '@/components/solution/DataMarketGuide'
 import styles from './trials.module.css'
 
 const PhaseChart = dynamic(() => import('@/components/trials/PhaseChart'), { ssr: false })
@@ -54,7 +56,7 @@ function generateTrialInterpretation(studies: ClinicalTrial[], total: number): s
 
 export default function TrialsPage() {
   const { state } = useQuery()
-  const { input, hasSearched } = state
+  const { input, solutionRoute, hasSearched } = state
 
   const [studies, setStudies] = useState<ClinicalTrial[]>([])
   const [total, setTotal] = useState(0)
@@ -63,8 +65,10 @@ export default function TrialsPage() {
   const [isFallback, setIsFallback] = useState(false)
   const [fetchedAt, setFetchedAt] = useState<Date | null>(null)
 
+  const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area)
+
   const load = useCallback(async () => {
-    if (!hasSearched) return
+    if (!hasSearched || !showGenAI) return
     setLoading(true)
     setError(null)
     try {
@@ -79,7 +83,7 @@ export default function TrialsPage() {
     } finally {
       setLoading(false)
     }
-  }, [input, hasSearched])
+  }, [input, hasSearched, showGenAI])
 
   useEffect(() => {
     load()
@@ -87,21 +91,30 @@ export default function TrialsPage() {
 
   const phaseData = computePhaseCounts(studies)
   const sponsorData = computeSponsorCounts(studies)
-  const interpretation = hasSearched ? generateTrialInterpretation(studies, total) : null
+  const interpretation = hasSearched && showGenAI ? generateTrialInterpretation(studies, total) : null
 
   return (
     <div>
       <SectionHeader
-        title="임상 동향"
-        subtitle="분산된 임상시험 신호를 비즈니스 판독 가능한 랜드스케이프로 전환"
+        title="데이터 & 시장"
+        subtitle={showGenAI
+          ? '분산된 임상시험 신호를 비즈니스 판독 가능한 랜드스케이프로 전환'
+          : '데이터 성숙도 진단 및 시장 맥락 가이드'
+        }
       />
 
       <div className={styles.content}>
         {!hasSearched ? (
           <div className={styles.empty}>
-            <div className={styles.emptyTitle}>먼저 기회 분석을 실행하세요</div>
-            <p className={styles.emptyText}>검색 조건을 입력하고 기회 분석 실행을 클릭하면 임상시험 데이터가 로드됩니다.</p>
+            <div className={styles.emptyTitle}>먼저 진단을 실행하세요</div>
+            <p className={styles.emptyText}>문제 유형을 선택하고 진단 실행을 클릭하면 데이터 & 시장 콘텐츠가 로드됩니다.</p>
           </div>
+        ) : !showGenAI && solutionRoute ? (
+          <DataMarketGuide
+            area={solutionRoute.area}
+            dataMaturity={input.dataMaturity}
+            solutionRoute={solutionRoute}
+          />
         ) : loading ? (
           <div className={styles.skeleton}>
             {[...Array(4)].map((_, i) => <div key={i} className={styles.skeletonCard} />)}

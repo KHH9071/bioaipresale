@@ -17,9 +17,13 @@ import type {
   TimeYears,
   OpportunityOutput,
   PoCProposal,
+  SolutionRouteResult,
+  ProblemDomain,
+  DataMaturity,
 } from './types'
 import { generateOpportunityOutput } from './rules/opportunity'
 import { generatePoCProposal } from './rules/poc-designer'
+import { routeSolution } from './rules/solution-router'
 
 // ─── State ────────────────────────────────────────────────────────────────────
 
@@ -28,6 +32,7 @@ interface QueryState {
   pocOptions: PoCOptions
   opportunity: OpportunityOutput | null
   pocProposal: PoCProposal | null
+  solutionRoute: SolutionRouteResult | null
   hasSearched: boolean
   searchedAt: number | null  // epoch ms, for "Analyzed at HH:MM:SS"
 }
@@ -39,6 +44,8 @@ const DEFAULT_INPUT: QueryInput = {
   objective: 'literature_intelligence',
   region: 'Global',
   timeYears: 5,
+  problemDomain: 'literature_regulatory',
+  dataMaturity: 'developing',
 }
 
 const DEFAULT_POC_OPTIONS: PoCOptions = {
@@ -52,6 +59,7 @@ const INITIAL_STATE: QueryState = {
   pocOptions: DEFAULT_POC_OPTIONS,
   opportunity: null,
   pocProposal: null,
+  solutionRoute: null,
   hasSearched: false,
   searchedAt: null,
 }
@@ -80,13 +88,15 @@ function queryReducer(state: QueryState, action: QueryAction): QueryState {
     case 'SUBMIT_SEARCH': {
       const opportunity = generateOpportunityOutput(state.input)
       const pocProposal = generatePoCProposal(state.input, state.pocOptions)
-      return { ...state, opportunity, pocProposal, hasSearched: true, searchedAt: Date.now() }
+      const solutionRoute = routeSolution(state.input)
+      return { ...state, opportunity, pocProposal, solutionRoute, hasSearched: true, searchedAt: Date.now() }
     }
     case 'LOAD_FROM_URL': {
       const input = { ...state.input, ...action.payload }
       const opportunity = generateOpportunityOutput(input)
       const pocProposal = generatePoCProposal(input, state.pocOptions)
-      return { ...state, input, opportunity, pocProposal, hasSearched: true, searchedAt: Date.now() }
+      const solutionRoute = routeSolution(input)
+      return { ...state, input, opportunity, pocProposal, solutionRoute, hasSearched: true, searchedAt: Date.now() }
     }
     default:
       return state
@@ -120,8 +130,10 @@ export function QueryProvider({ children }: { children: ReactNode }) {
     const objective = searchParams.get('objective') as BusinessObjective | null
     const region = searchParams.get('region') as Region | null
     const timeYears = searchParams.get('timeYears')
+    const problemDomain = searchParams.get('problemDomain') as ProblemDomain | null
+    const dataMaturity = searchParams.get('dataMaturity') as DataMaturity | null
 
-    if (disease || target || drug) {
+    if (disease || target || drug || problemDomain) {
       dispatch({
         type: 'LOAD_FROM_URL',
         payload: {
@@ -131,6 +143,8 @@ export function QueryProvider({ children }: { children: ReactNode }) {
           objective: objective ?? 'literature_intelligence',
           region: region ?? 'Global',
           timeYears: timeYears ? (parseInt(timeYears) as TimeYears) : 5,
+          problemDomain: problemDomain ?? 'literature_regulatory',
+          dataMaturity: dataMaturity ?? 'developing',
         },
       })
     }
@@ -156,6 +170,8 @@ export function QueryProvider({ children }: { children: ReactNode }) {
     params.set('objective', state.input.objective)
     params.set('region', state.input.region)
     params.set('timeYears', String(state.input.timeYears))
+    params.set('problemDomain', state.input.problemDomain)
+    params.set('dataMaturity', state.input.dataMaturity)
 
     const newUrl = `${pathname}?${params.toString()}`
     router.replace(newUrl, { scroll: false })
