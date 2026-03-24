@@ -7,6 +7,7 @@ import OpportunityStatement from '@/components/overview/OpportunityStatement'
 import PainPointCard from '@/components/overview/PainPointCard'
 import KPIPreviewList from '@/components/overview/KPIPreviewList'
 import SolutionPathSection from '@/components/overview/SolutionPathSection'
+import ScenarioBottleneckBanner from '@/components/common/ScenarioBottleneckBanner'
 import styles from './overview.module.css'
 
 export default function OverviewPage() {
@@ -30,6 +31,8 @@ export default function OverviewPage() {
           </div>
         ) : (
           <>
+            <ScenarioBottleneckBanner tab="overview" />
+
             {solutionRoute && (
               <SolutionPathSection solutionRoute={solutionRoute} />
             )}

@@ -11,6 +11,7 @@ import InterpretationBox from '@/components/common/InterpretationBox'
 import PubMedResultsTable from '@/components/evidence/PubMedResultsTable'
 import KeywordClusterChips from '@/components/evidence/KeywordClusterChips'
 import SolutionConceptGuide from '@/components/solution/SolutionConceptGuide'
+import ScenarioBottleneckBanner from '@/components/common/ScenarioBottleneckBanner'
 import styles from './evidence.module.css'
 
 export default function EvidencePage() {
@@ -74,6 +75,8 @@ export default function EvidencePage() {
           <SolutionConceptGuide area={solutionRoute.area} solutionRoute={solutionRoute} />
         ) : (
           <>
+            <ScenarioBottleneckBanner tab="evidence" />
+
             <div className={styles.filterBar}>
               <span className={styles.resultCount}>
                 {loading ? '로딩 중...' : `논문 ${papers.length}편`}

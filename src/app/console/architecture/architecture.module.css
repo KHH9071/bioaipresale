@@ -232,3 +232,44 @@
   color: var(--fg-muted);
   line-height: 1.55;
 }
+
+/* ── Scenario Architecture Overlay ──────────────────────────── */
+
+.blockEmphasized {
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: 0 0 0 2px var(--emphasis-color, rgba(88,166,255,0.2));
+  background: var(--bg-hover);
+}
+
+.emphasizedBadge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  border: 1px solid;
+}
+
+.scenarioCallout {
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  border: 1px solid;
+  border-left-width: 3px;
+}
+
+.scenarioCalloutTitle {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.scenarioCalloutText {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.6;
+}

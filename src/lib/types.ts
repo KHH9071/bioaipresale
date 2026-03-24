@@ -1,3 +1,6 @@
+// ─── Scenario Types (re-export for convenience) ──────────────────────────────
+export type { BottleneckScenarioId, PresalesScenario, ScenarioTabContent, SignalMode } from './scenarios/types'
+
 // ─── Query Input ───────────────────────────────────────────────────────────────
 
 export type BusinessObjective =

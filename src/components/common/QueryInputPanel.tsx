@@ -3,12 +3,16 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useQuery } from '@/lib/query-context'
-import type { BusinessObjective, Region, TimeYears, ProblemDomain, DataMaturity } from '@/lib/types'
+import type { BusinessObjective, Region, TimeYears, ProblemDomain, DataMaturity, BottleneckScenarioId } from '@/lib/types'
+import { getAllScenarios, getScenario } from '@/lib/scenarios/registry'
+import { inferScenarioHint } from '@/lib/scenarios/scenario-engine'
 import styles from './QueryInputPanel.module.css'
 
-const PRESETS = [
+// ─── 기존 예시 프리셋 (질환 예시) ─────────────────────────────────────────────
+
+const EXAMPLE_PRESETS = [
   {
-    label: '★ 대표 시나리오 — 폐암 / KRAS G12C',
+    label: '★ 대표 예시 — 폐암 / KRAS G12C',
     disease: 'Non-small cell lung cancer',
     target: 'KRAS G12C',
     drug: 'Sotorasib',
@@ -17,6 +21,7 @@ const PRESETS = [
     timeYears: 5 as TimeYears,
     problemDomain: 'literature_regulatory' as ProblemDomain,
     dataMaturity: 'developing' as DataMaturity,
+    scenarioId: null as BottleneckScenarioId | null,
   },
   {
     label: '알츠하이머 / Amyloid-β',
@@ -28,6 +33,7 @@ const PRESETS = [
     timeYears: 3 as TimeYears,
     problemDomain: 'trial_competitive' as ProblemDomain,
     dataMaturity: 'developing' as DataMaturity,
+    scenarioId: null as BottleneckScenarioId | null,
   },
   {
     label: 'HER2+ 유방암',
@@ -39,9 +45,10 @@ const PRESETS = [
     timeYears: 5 as TimeYears,
     problemDomain: 'literature_regulatory' as ProblemDomain,
     dataMaturity: 'developing' as DataMaturity,
+    scenarioId: null as BottleneckScenarioId | null,
   },
   {
-    label: '★ 데이터 플랫폼 시나리오 — EDP',
+    label: '★ EDP — 데이터 플랫폼',
     disease: '',
     target: '',
     drug: '',
@@ -50,9 +57,10 @@ const PRESETS = [
     timeYears: 5 as TimeYears,
     problemDomain: 'data_infrastructure' as ProblemDomain,
     dataMaturity: 'developing' as DataMaturity,
+    scenarioId: null as BottleneckScenarioId | null,
   },
   {
-    label: '★ 신약 발굴 시나리오 — 구조 예측',
+    label: '★ 신약 발굴 — 구조 예측',
     disease: 'Parkinson disease',
     target: 'LRRK2',
     drug: '',
@@ -61,14 +69,30 @@ const PRESETS = [
     timeYears: 5 as TimeYears,
     problemDomain: 'drug_discovery_computational' as ProblemDomain,
     dataMaturity: 'nascent' as DataMaturity,
+    scenarioId: null as BottleneckScenarioId | null,
   },
 ]
 
 export default function QueryInputPanel() {
-  const { state, setInput, submitSearch } = useQuery()
-  const { input } = state
+  const { state, setInput, submitSearch, setScenario } = useQuery()
+  const { input, activeScenarioId } = state
   const searchParams = useSearchParams()
   const [captureMode, setCaptureMode] = useState(false)
+  const [scenarioHint, setScenarioHint] = useState<BottleneckScenarioId | null>(null)
+
+  // 시나리오 레지스트리에서 4개 병목 시나리오 프리셋 생성
+  const scenarioPresets = getAllScenarios().map((s) => ({
+    label: s.shortLabel,
+    disease: s.presetInput.disease,
+    target: s.presetInput.target,
+    drug: s.presetInput.drug,
+    objective: s.presetInput.objective as BusinessObjective,
+    region: s.presetInput.region as Region,
+    timeYears: s.presetInput.timeYears as TimeYears,
+    problemDomain: s.presetInput.problemDomain as ProblemDomain,
+    dataMaturity: s.presetInput.dataMaturity as DataMaturity,
+    scenarioId: s.id as BottleneckScenarioId,
+  }))
 
   // Auto-enable capture mode when ?capture=1 is in URL
   useEffect(() => {
@@ -87,7 +111,7 @@ export default function QueryInputPanel() {
     })
   }, [])
 
-  function applyPreset(preset: typeof PRESETS[0]) {
+  function applyPreset(preset: typeof EXAMPLE_PRESETS[0] | typeof scenarioPresets[0]) {
     setInput({
       disease: preset.disease,
       target: preset.target,
@@ -98,6 +122,33 @@ export default function QueryInputPanel() {
       problemDomain: preset.problemDomain,
       dataMaturity: preset.dataMaturity,
     })
+    setScenario(preset.scenarioId)
+
+    // 예시 케이스 선택 시 관련 병목 시나리오 힌트 추론
+    if (preset.scenarioId === null) {
+      const hint = inferScenarioHint(preset.disease, preset.target)
+      setScenarioHint(hint)
+    } else {
+      setScenarioHint(null)
+    }
+  }
+
+  function applyScenarioHint() {
+    if (!scenarioHint) return
+    const scenario = getScenario(scenarioHint)
+    if (!scenario) return
+    setInput({
+      disease: scenario.presetInput.disease,
+      target: scenario.presetInput.target,
+      drug: scenario.presetInput.drug,
+      objective: scenario.presetInput.objective as BusinessObjective,
+      region: scenario.presetInput.region as Region,
+      timeYears: scenario.presetInput.timeYears as TimeYears,
+      problemDomain: scenario.presetInput.problemDomain as ProblemDomain,
+      dataMaturity: scenario.presetInput.dataMaturity as DataMaturity,
+    })
+    setScenario(scenarioHint)
+    setScenarioHint(null)
   }
 
   return (
@@ -225,19 +276,60 @@ export default function QueryInputPanel() {
           </div>
         </div>
 
-        <div className={styles.actions}>
-          <span className={styles.presetLabel}>빠른 시나리오:</span>
-          <div className={styles.presets}>
-            {PRESETS.map((preset) => (
-              <button
-                key={preset.label}
-                className={styles.presetBtn}
-                onClick={() => applyPreset(preset)}
-              >
-                {preset.label}
-              </button>
-            ))}
+        {/* ── 빠른 시나리오 영역 ── */}
+        <div className={styles.scenarioArea}>
+          {/* 예시 케이스 */}
+          <div className={styles.presetGroup}>
+            <span className={styles.presetLabel}>예시 케이스:</span>
+            <div className={styles.presets}>
+              {EXAMPLE_PRESETS.map((preset) => (
+                <button
+                  key={preset.label}
+                  className={styles.presetBtn}
+                  onClick={() => applyPreset(preset)}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {/* 병목 시나리오 */}
+          <div className={styles.presetGroup}>
+            <span className={styles.presetLabelScenario}>병목 시나리오:</span>
+            <div className={styles.presets}>
+              {scenarioPresets.map((preset) => (
+                <button
+                  key={preset.scenarioId}
+                  className={`${styles.presetBtnScenario} ${activeScenarioId === preset.scenarioId ? styles.presetBtnScenarioActive : ''}`}
+                  onClick={() => applyPreset(preset)}
+                  title={getAllScenarios().find(s => s.id === preset.scenarioId)?.bottleneckSummary}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 시나리오 힌트 카드 — 예시 케이스와 병목 프레임의 연결 */}
+          {scenarioHint && !activeScenarioId && (
+            <div className={styles.scenarioHintCard}>
+              <span className={styles.scenarioHintIcon}>💡</span>
+              <span className={styles.scenarioHintText}>
+                이 예시 케이스는{' '}
+                <span className={styles.scenarioHintName}>
+                  [{getScenario(scenarioHint)?.shortLabel ?? scenarioHint}]
+                </span>{' '}
+                병목 프레임과 연결됩니다 — 시나리오를 적용하면 PoC / 아키텍처 해석이 더 구체화됩니다.
+              </span>
+              <button className={styles.scenarioHintBtn} onClick={applyScenarioHint}>
+                이 프레임 적용 →
+              </button>
+              <button className={styles.scenarioHintClose} onClick={() => setScenarioHint(null)} title="닫기">
+                ✕
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

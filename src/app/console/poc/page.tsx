@@ -6,6 +6,7 @@ import { isGenAIPath } from '@/lib/rules/solution-router'
 import type { PrimaryUser, DataAvailability, DeliveryPreference } from '@/lib/types'
 import SectionHeader from '@/components/common/SectionHeader'
 import NonGenAIPoCPanel from '@/components/poc/NonGenAIPoCPanel'
+import ScenarioBottleneckBanner from '@/components/common/ScenarioBottleneckBanner'
 import styles from './poc.module.css'
 
 const WEEK_COLORS = ['#58A6FF', '#3FB950', '#D29922', '#BC8CFF', '#F85149', '#8B949E']
@@ -147,6 +148,8 @@ export default function PoCPage() {
           <NonGenAIPoCPanel area={solutionRoute.area} />
         ) : pocProposal ? (
           <>
+            <ScenarioBottleneckBanner tab="poc" />
+
             {/* Source badge */}
             <div className={styles.sourceBar}>
               <span className={styles.sourceBadge}>규칙 기반 PoC 프레이밍 엔진 생성</span>

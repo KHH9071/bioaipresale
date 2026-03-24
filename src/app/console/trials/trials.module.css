@@ -101,3 +101,88 @@
   color: var(--fg-muted);
   margin-bottom: 10px;
 }
+
+/* ── Scenario Signal Context Card ────────────────────────────── */
+
+.signalContextCard {
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  border: 1px solid;
+}
+
+.signalContextLimited {
+  background: rgba(139, 148, 158, 0.07);
+  border-color: rgba(139, 148, 158, 0.3);
+}
+
+.signalContextModerate {
+  background: rgba(88, 166, 255, 0.06);
+  border-color: rgba(88, 166, 255, 0.25);
+}
+
+.signalContextStrong {
+  background: rgba(63, 185, 80, 0.07);
+  border-color: rgba(63, 185, 80, 0.25);
+}
+
+.signalContextHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.signalContextTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.signalModeBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+
+.signalContextBody {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.6;
+}
+
+.primaryAxisTag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-top: 8px;
+  background: rgba(139, 148, 158, 0.15);
+  border: 1px solid rgba(139, 148, 158, 0.3);
+  color: var(--fg-muted);
+}
+
+.trialDataDimmed {
+  opacity: 0.75;
+  position: relative;
+}
+
+.trialDataDimmed::before {
+  content: '참고 데이터 — 이 시나리오의 주요 근거 축 아님';
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--fg-subtle);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding: 4px 10px;
+  background: rgba(139, 148, 158, 0.08);
+  border: 1px solid rgba(139, 148, 158, 0.2);
+  border-radius: var(--radius);
+  width: fit-content;
+}

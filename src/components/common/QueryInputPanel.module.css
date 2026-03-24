@@ -162,3 +162,116 @@
   border-color: var(--accent);
   color: var(--accent);
 }
+
+/* ── 병목 시나리오 전용 ──────────────────────────────────── */
+
+.scenarioArea {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.presetGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.presetLabelScenario {
+  font-size: 11px;
+  color: var(--accent-amber);
+  font-weight: 600;
+  margin-right: 2px;
+  align-self: center;
+  white-space: nowrap;
+}
+
+.presetBtnScenario {
+  background: transparent;
+  border: 1px solid rgba(210, 153, 34, 0.35);
+  border-radius: var(--radius);
+  color: var(--fg-muted);
+  font-size: 11px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.presetBtnScenario:hover {
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+.presetBtnScenarioActive {
+  background: rgba(210, 153, 34, 0.1);
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+  font-weight: 600;
+}
+
+/* ── Scenario Hint Card ─────────────────────────────────────── */
+
+.scenarioHintCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(210, 153, 34, 0.06);
+  border: 1px solid rgba(210, 153, 34, 0.3);
+  border-radius: var(--radius);
+  padding: 7px 12px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.scenarioHintIcon {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.scenarioHintText {
+  font-size: 11px;
+  color: var(--fg-muted);
+  flex: 1;
+  min-width: 160px;
+}
+
+.scenarioHintName {
+  color: var(--accent-amber);
+  font-weight: 600;
+}
+
+.scenarioHintBtn {
+  background: rgba(210, 153, 34, 0.15);
+  border: 1px solid rgba(210, 153, 34, 0.4);
+  border-radius: var(--radius);
+  color: var(--accent-amber);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  padding: 3px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.scenarioHintBtn:hover {
+  background: rgba(210, 153, 34, 0.25);
+}
+
+.scenarioHintClose {
+  background: transparent;
+  border: none;
+  color: var(--fg-subtle);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.scenarioHintClose:hover {
+  color: var(--fg-muted);
+}

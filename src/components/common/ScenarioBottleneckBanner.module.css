@@ -1,0 +1,201 @@
+.banner {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.categoryBadge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fg);
+  flex-shrink: 0;
+}
+
+.tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 10px;
+  color: var(--fg-subtle);
+  background: var(--bg-hover);
+  border: 1px solid var(--border-muted);
+  border-radius: 3px;
+  padding: 1px 6px;
+}
+
+/* ── Body layout ── */
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ── Labels and text ── */
+
+.fieldLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--fg-muted);
+  margin-bottom: 3px;
+  margin-top: 6px;
+}
+
+.fieldText {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.highlightText {
+  font-size: 12px;
+  color: var(--fg);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.quoteText {
+  font-size: 12px;
+  color: var(--accent);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Lists ── */
+
+.bulletList {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bulletList li {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+}
+
+.bulletListMuted {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bulletListMuted li {
+  font-size: 12px;
+  color: var(--fg-subtle);
+  line-height: 1.5;
+}
+
+/* ── Signal badge (trials tab) ── */
+
+.signalRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.signalBadge {
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 3px 10px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Hint box (evidence tab) ── */
+
+.hintBox {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: rgba(88, 166, 255, 0.06);
+  border: 1px solid rgba(88, 166, 255, 0.15);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+}
+
+.hintIcon {
+  flex-shrink: 0;
+}
+
+/* ── Risk note (poc tab) ── */
+
+.riskNote {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: rgba(248, 81, 73, 0.06);
+  border: 1px solid rgba(248, 81, 73, 0.15);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+}
+
+.riskIcon {
+  flex-shrink: 0;
+  color: var(--accent-red);
+}

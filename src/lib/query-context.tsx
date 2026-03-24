@@ -20,10 +20,9 @@ import type {
   SolutionRouteResult,
   ProblemDomain,
   DataMaturity,
+  BottleneckScenarioId,
 } from './types'
-import { generateOpportunityOutput } from './rules/opportunity'
-import { generatePoCProposal } from './rules/poc-designer'
-import { routeSolution } from './rules/solution-router'
+import { generateScenarioAwareOutputs } from './scenarios/scenario-engine'
 
 // ─── State ────────────────────────────────────────────────────────────────────
 
@@ -35,6 +34,7 @@ interface QueryState {
   solutionRoute: SolutionRouteResult | null
   hasSearched: boolean
   searchedAt: number | null  // epoch ms, for "Analyzed at HH:MM:SS"
+  activeScenarioId: BottleneckScenarioId | null  // 현재 활성화된 병목 시나리오
 }
 
 const DEFAULT_INPUT: QueryInput = {
@@ -62,6 +62,7 @@ const INITIAL_STATE: QueryState = {
   solutionRoute: null,
   hasSearched: false,
   searchedAt: null,
+  activeScenarioId: null,
 }
 
 // ─── Actions ──────────────────────────────────────────────────────────────────
@@ -71,6 +72,7 @@ type QueryAction =
   | { type: 'SET_POC_OPTIONS'; payload: Partial<PoCOptions> }
   | { type: 'SUBMIT_SEARCH' }
   | { type: 'LOAD_FROM_URL'; payload: Partial<QueryInput> }
+  | { type: 'SET_SCENARIO'; payload: BottleneckScenarioId | null }
 
 function queryReducer(state: QueryState, action: QueryAction): QueryState {
   switch (action.type) {
@@ -81,22 +83,31 @@ function queryReducer(state: QueryState, action: QueryAction): QueryState {
     case 'SET_POC_OPTIONS': {
       const pocOptions = { ...state.pocOptions, ...action.payload }
       const pocProposal = state.hasSearched
-        ? generatePoCProposal(state.input, pocOptions)
+        ? generateScenarioAwareOutputs(state.input, pocOptions, state.activeScenarioId).pocProposal
         : null
       return { ...state, pocOptions, pocProposal }
     }
     case 'SUBMIT_SEARCH': {
-      const opportunity = generateOpportunityOutput(state.input)
-      const pocProposal = generatePoCProposal(state.input, state.pocOptions)
-      const solutionRoute = routeSolution(state.input)
+      // activeScenarioId가 있으면 scenario-aware 출력, 없으면 기존 로직 (하위 호환)
+      const { opportunity, pocProposal, solutionRoute } = generateScenarioAwareOutputs(
+        state.input,
+        state.pocOptions,
+        state.activeScenarioId,
+      )
       return { ...state, opportunity, pocProposal, solutionRoute, hasSearched: true, searchedAt: Date.now() }
     }
     case 'LOAD_FROM_URL': {
       const input = { ...state.input, ...action.payload }
-      const opportunity = generateOpportunityOutput(input)
-      const pocProposal = generatePoCProposal(input, state.pocOptions)
-      const solutionRoute = routeSolution(input)
+      // URL로 로드할 때는 scenarioId가 없으므로 항상 기존 로직 사용
+      const { opportunity, pocProposal, solutionRoute } = generateScenarioAwareOutputs(
+        input,
+        state.pocOptions,
+        null,
+      )
       return { ...state, input, opportunity, pocProposal, solutionRoute, hasSearched: true, searchedAt: Date.now() }
+    }
+    case 'SET_SCENARIO': {
+      return { ...state, activeScenarioId: action.payload }
     }
     default:
       return state
@@ -110,6 +121,7 @@ interface QueryContextValue {
   setInput: (payload: Partial<QueryInput>) => void
   setPoCOptions: (payload: Partial<PoCOptions>) => void
   submitSearch: () => void
+  setScenario: (id: BottleneckScenarioId | null) => void
 }
 
 const QueryContext = createContext<QueryContextValue | null>(null)
@@ -155,6 +167,10 @@ export function QueryProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_INPUT', payload })
   }, [])
 
+  const setScenario = useCallback((id: BottleneckScenarioId | null) => {
+    dispatch({ type: 'SET_SCENARIO', payload: id })
+  }, [])
+
   const setPoCOptions = useCallback((payload: Partial<PoCOptions>) => {
     dispatch({ type: 'SET_POC_OPTIONS', payload })
   }, [])
@@ -178,7 +194,7 @@ export function QueryProvider({ children }: { children: ReactNode }) {
   }, [state.input, pathname, router])
 
   return (
-    <QueryContext.Provider value={{ state, setInput, setPoCOptions, submitSearch }}>
+    <QueryContext.Provider value={{ state, setInput, setPoCOptions, submitSearch, setScenario }}>
       {children}
     </QueryContext.Provider>
   )

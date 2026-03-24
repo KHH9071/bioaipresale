@@ -2,8 +2,52 @@
 
 import { useQuery } from '@/lib/query-context'
 import { getArchPattern } from '@/lib/rules/architecture-patterns'
+import type { BottleneckScenarioId } from '@/lib/types'
 import SectionHeader from '@/components/common/SectionHeader'
+import ScenarioBottleneckBanner from '@/components/common/ScenarioBottleneckBanner'
 import styles from './architecture.module.css'
+
+// ── Scenario Architecture Overlay Config ─────────────────────────────────────
+
+interface ArchOverlay {
+  emphasisBlockIds: string[]
+  callout: { title: string; text: string; color: string }
+}
+
+const SCENARIO_ARCH_OVERLAY: Partial<Record<BottleneckScenarioId, ArchOverlay>> = {
+  undruggable_target: {
+    emphasisBlockIds: ['public-data', 'metadata', 'search-index', 'guardrail'],
+    callout: {
+      title: '핵심 레이어: 근거 집계 + 출처 추적 가능성',
+      text: '이 시나리오에서 가장 중요한 구성요소는 다중 공개 소스 통합(Public Data), 표적-기전 용어 정규화(메타데이터), 하이브리드 검색 인덱스, 그리고 전문가 검토 게이트(가드레일)입니다. Evidence aggregation의 신뢰성과 출처 추적 가능성이 PoC 성공을 결정합니다.',
+      color: '#BC8CFF',
+    },
+  },
+  rwd_autoimmune: {
+    emphasisBlockIds: ['internal-data', 'ingestion', 'metadata', 'logging'],
+    callout: {
+      title: '핵심 레이어: Governed Analytics + 종단적 환자 뷰',
+      text: '이 시나리오의 핵심은 내부 데이터 연동 레이어(EMR/청구/레지스트리)와 데이터 수집 파이프라인입니다. 데이터 이질성 관리와 규제 대응을 위해 Governed analytics(로깅/감사)와 메타데이터 정규화가 특히 강조됩니다.',
+      color: '#58A6FF',
+    },
+  },
+  mutation_agnostic: {
+    emphasisBlockIds: ['public-data', 'llm-orchestration', 'guardrail'],
+    callout: {
+      title: '핵심 레이어: Human-in-the-loop + 불확실성 명시 출력',
+      text: '과학적 불확실성이 높은 이 시나리오에서는 LLM 오케스트레이션의 다단계 추론과 가드레일/전문가 검토 게이트가 핵심입니다. "결론" 대신 "근거 수준이 명시된 가설"을 출력하는 구조가 PoC의 신뢰성을 보장합니다. 모든 출력에는 전임상/임상/리뷰 근거 수준이 함께 표시되어야 합니다.',
+      color: '#D29922',
+    },
+  },
+  off_target_toxicity: {
+    emphasisBlockIds: ['public-data', 'ingestion', 'llm-orchestration', 'guardrail'],
+    callout: {
+      title: '핵심 레이어: 전달 전략 지식 베이스 + 가설 초안 생성',
+      text: '전달 모달리티 지식 베이스(수집/ETL 레이어)와 LLM 기반 가설 합성이 이 시나리오의 핵심입니다. 가드레일은 신약 설계 권고 오인을 방지하고, 전문가 검토 전 모든 출력에 물성 의존성과 제한 사항을 명시합니다.',
+      color: '#3FB950',
+    },
+  },
+}
 
 const LAYER_LABELS: Record<string, string> = {
   source: '데이터 소스',
@@ -118,10 +162,11 @@ const GOVERNANCE = [
 
 export default function ArchitecturePage() {
   const { state } = useQuery()
-  const { solutionRoute } = state
+  const { solutionRoute, activeScenarioId } = state
 
   const area = solutionRoute?.area ?? 'genai'
   const pattern = getArchPattern(area)
+  const overlay = activeScenarioId ? SCENARIO_ARCH_OVERLAY[activeScenarioId] : undefined
 
   const layers = Array.from(new Set(pattern.blocks.map((b) => b.layer)))
   const orderedLayers = [
@@ -146,26 +191,69 @@ export default function ArchitecturePage() {
         {/* Architecture Diagram */}
         <div className={styles.diagramSection}>
           <div className={styles.sectionLabel}>아키텍처 블록</div>
+
+          {/* Scenario-specific callout */}
+          {overlay && (
+            <div
+              className={styles.scenarioCallout}
+              style={{
+                borderColor: `${overlay.callout.color}30`,
+                borderLeftColor: overlay.callout.color,
+                background: `${overlay.callout.color}08`,
+              }}
+            >
+              <div className={styles.scenarioCalloutTitle} style={{ color: overlay.callout.color }}>
+                {overlay.callout.title}
+              </div>
+              <p className={styles.scenarioCalloutText}>{overlay.callout.text}</p>
+            </div>
+          )}
+
           <div className={styles.diagram}>
             {orderedLayers.map((layer, i) => (
               <div key={layer}>
                 <div className={styles.layerRow}>
                   <div className={styles.layerLabel}>{LAYER_LABELS[layer] ?? layer}</div>
                   <div className={styles.layerBlocks}>
-                    {pattern.blocks.filter((b) => b.layer === layer).map((block) => (
-                      <div key={block.id} className={styles.block} style={{ borderColor: `${block.color}40` }}>
-                        <div className={styles.blockDot} style={{ background: block.color }} />
-                        <div className={styles.blockName}>{block.label}</div>
-                        <div className={styles.tooltip}>{block.description}</div>
-                      </div>
-                    ))}
+                    {pattern.blocks.filter((b) => b.layer === layer).map((block) => {
+                      const isEmphasized = overlay?.emphasisBlockIds.includes(block.id) ?? false
+                      return (
+                        <div
+                          key={block.id}
+                          className={`${styles.block} ${isEmphasized ? styles.blockEmphasized : ''}`}
+                          style={isEmphasized
+                            ? {
+                                borderColor: overlay!.callout.color,
+                                ['--emphasis-color' as string]: `${overlay!.callout.color}30`,
+                              }
+                            : { borderColor: `${block.color}40` }
+                          }
+                        >
+                          {isEmphasized && (
+                            <div
+                              className={styles.emphasizedBadge}
+                              style={{
+                                color: overlay!.callout.color,
+                                borderColor: `${overlay!.callout.color}50`,
+                                background: `${overlay!.callout.color}12`,
+                              }}
+                            >
+                              핵심
+                            </div>
+                          )}
+                          <div className={styles.blockDot} style={{ background: isEmphasized ? overlay!.callout.color : block.color }} />
+                          <div className={styles.blockName}>{block.label}</div>
+                          <div className={styles.tooltip}>{block.description}</div>
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
                 {i < orderedLayers.length - 1 && <div className={styles.arrow}>↓</div>}
               </div>
             ))}
           </div>
-          <p className={styles.diagramNote}>각 블록에 마우스를 올리면 아키텍처에서의 역할을 확인할 수 있습니다.</p>
+          <p className={styles.diagramNote}>각 블록에 마우스를 올리면 아키텍처에서의 역할을 확인할 수 있습니다.{overlay ? ' · 핵심 배지가 붙은 블록이 이 시나리오의 주요 구성요소입니다.' : ''}</p>
         </div>
 
         {/* Deployment Options */}
@@ -193,6 +281,9 @@ export default function ArchitecturePage() {
             </div>
           ))}
         </div>
+
+        {/* Scenario-specific architecture notes */}
+        <ScenarioBottleneckBanner tab="architecture" />
 
         {/* Delivery Notes */}
         <div className={styles.deliveryNotes}>
