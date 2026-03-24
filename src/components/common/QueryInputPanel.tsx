@@ -79,6 +79,28 @@ export default function QueryInputPanel() {
   const searchParams = useSearchParams()
   const [captureMode, setCaptureMode] = useState(false)
   const [scenarioHint, setScenarioHint] = useState<BottleneckScenarioId | null>(null)
+  const [isDark, setIsDark] = useState(true)
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('theme')
+      if (stored === 'light') setIsDark(false)
+    } catch { /* ignore */ }
+  }, [])
+
+  const toggleTheme = useCallback(() => {
+    const next = !isDark
+    setIsDark(next)
+    try {
+      if (next) {
+        document.documentElement.removeAttribute('data-theme')
+        localStorage.setItem('theme', 'dark')
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light')
+        localStorage.setItem('theme', 'light')
+      }
+    } catch { /* ignore */ }
+  }, [isDark])
 
   // 시나리오 레지스트리에서 4개 병목 시나리오 프리셋 생성
   const scenarioPresets = getAllScenarios().map((s) => ({
@@ -158,13 +180,22 @@ export default function QueryInputPanel() {
           <div className={styles.appTitle}>Bio AI Presales 진단 콘솔</div>
           <div className={styles.appSubtitle}>고객 문제 유형을 6개 Bio AI 솔루션 경로로 진단하고 PoC 제안을 구조화합니다</div>
         </div>
-        <button
-          className={`${styles.captureBtn} ${captureMode ? styles.captureBtnActive : ''}`}
-          onClick={toggleCaptureMode}
-          title="캡처/발표 모드 토글"
-        >
-          {captureMode ? '📌 캡처 모드 해제' : '📸 캡처 모드'}
-        </button>
+        <div className={styles.headerBtns}>
+          <button
+            className={styles.themeBtn}
+            onClick={toggleTheme}
+            title={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+          >
+            {isDark ? '☀ Light' : '☾ Dark'}
+          </button>
+          <button
+            className={`${styles.captureBtn} ${captureMode ? styles.captureBtnActive : ''}`}
+            onClick={toggleCaptureMode}
+            title="캡처/발표 모드 토글"
+          >
+            {captureMode ? '📌 캡처 모드 해제' : '📸 캡처 모드'}
+          </button>
+        </div>
       </div>
 
       <div className={styles.form} data-no-capture>

@@ -12,6 +12,31 @@
   margin-bottom: 14px;
 }
 
+.headerBtns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.themeBtn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--fg-muted);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.themeBtn:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+
 .captureBtn {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
