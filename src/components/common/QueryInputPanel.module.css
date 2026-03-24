@@ -172,6 +172,37 @@
   align-self: center;
 }
 
+.examplesToggle {
+  background: transparent;
+  border: none;
+  color: var(--fg-subtle);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.examplesToggle:hover {
+  color: var(--fg-muted);
+}
+
+.examplesChevron {
+  font-size: 13px;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.15s;
+  transform: rotate(0deg);
+}
+
+.examplesChevronOpen {
+  transform: rotate(90deg);
+}
+
 .presetBtn {
   background: transparent;
   border: 1px solid var(--border);

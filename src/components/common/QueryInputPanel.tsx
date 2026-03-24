@@ -79,6 +79,7 @@ export default function QueryInputPanel() {
   const searchParams = useSearchParams()
   const [captureMode, setCaptureMode] = useState(false)
   const [scenarioHint, setScenarioHint] = useState<BottleneckScenarioId | null>(null)
+  const [examplesOpen, setExamplesOpen] = useState(false)
   const [isDark, setIsDark] = useState(true)
 
   useEffect(() => {
@@ -309,23 +310,7 @@ export default function QueryInputPanel() {
 
         {/* ── 빠른 시나리오 영역 ── */}
         <div className={styles.scenarioArea}>
-          {/* 예시 케이스 */}
-          <div className={styles.presetGroup}>
-            <span className={styles.presetLabel}>예시 케이스:</span>
-            <div className={styles.presets}>
-              {EXAMPLE_PRESETS.map((preset) => (
-                <button
-                  key={preset.label}
-                  className={styles.presetBtn}
-                  onClick={() => applyPreset(preset)}
-                >
-                  {preset.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* 병목 시나리오 */}
+          {/* 병목 시나리오 — 상단 고정 */}
           <div className={styles.presetGroup}>
             <span className={styles.presetLabelScenario}>병목 시나리오:</span>
             <div className={styles.presets}>
@@ -340,6 +325,30 @@ export default function QueryInputPanel() {
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* 예시 케이스 — 기본 숨김, 접기/펼치기 */}
+          <div className={styles.presetGroup}>
+            <button
+              className={styles.examplesToggle}
+              onClick={() => setExamplesOpen((o) => !o)}
+            >
+              <span className={`${styles.examplesChevron} ${examplesOpen ? styles.examplesChevronOpen : ''}`}>›</span>
+              예시 케이스
+            </button>
+            {examplesOpen && (
+              <div className={styles.presets}>
+                {EXAMPLE_PRESETS.map((preset) => (
+                  <button
+                    key={preset.label}
+                    className={styles.presetBtn}
+                    onClick={() => applyPreset(preset)}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* 시나리오 힌트 카드 — 예시 케이스와 병목 프레임의 연결 */}
