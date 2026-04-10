@@ -25,6 +25,43 @@ function selectFallback(disease: string, target: string, drug: string) {
   return null
 }
 
+// Modality class descriptors are NOT registered intervention names in ClinicalTrials.gov.
+// When a bottleneck scenario preset uses a modality label (e.g., "PROTAC / Molecular glue degrader"),
+// passing it as query.intr returns 0 matches. We strip it from the intervention filter so
+// the disease query can carry the competitive landscape (e.g., Sotorasib/Adagrasib trials).
+const MODALITY_KEYWORDS = [
+  'protac',
+  'degrader',
+  'molecular glue',
+  'lnp',
+  'adc',
+  'nanoparticle',
+  'liposome',
+  'base editing',
+  'prime editing',
+  'exon skipping',
+  'gene editing',
+  'local delivery',
+  'smart delivery',
+  'delivery system',
+]
+
+function isModalityClass(term: string): boolean {
+  if (!term) return false
+  const lower = term.toLowerCase()
+  return MODALITY_KEYWORDS.some((k) => lower.includes(k))
+}
+
+// Convert slash-separated compound terms into Essie OR expressions.
+// "EGFR / Tumor microenvironment" → '(EGFR OR "Tumor microenvironment")'
+function expandSlashOr(term: string): string {
+  if (!term || !term.includes('/')) return term
+  const parts = term.split('/').map((p) => p.trim()).filter(Boolean)
+  if (parts.length <= 1) return term
+  const quoted = parts.map((p) => (p.includes(' ') ? `"${p}"` : p))
+  return `(${quoted.join(' OR ')})`
+}
+
 const CT_BASE = 'https://clinicaltrials.gov/api/v2'
 
 const PHASE_MAP: Record<string, string> = {
@@ -87,9 +124,11 @@ export async function GET(request: NextRequest) {
 
   try {
     const params = new URLSearchParams()
-    if (disease) params.set('query.cond', disease)
-    if (drug) params.set('query.intr', drug)
-    if (!disease && target) params.set('query.cond', target)
+    if (disease) params.set('query.cond', expandSlashOr(disease))
+    // Only pass drug as intervention filter if it's a concrete compound name,
+    // not a modality class descriptor (which would return 0 matches).
+    if (drug && !isModalityClass(drug)) params.set('query.intr', expandSlashOr(drug))
+    if (!disease && target) params.set('query.cond', expandSlashOr(target))
     params.set('fields', 'NCTId,BriefTitle,Phase,OverallStatus,LeadSponsorName,Condition,LocationCountry,StartDate')
     params.set('pageSize', '50')
     params.set('format', 'json')

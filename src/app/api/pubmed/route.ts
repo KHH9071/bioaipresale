@@ -29,11 +29,24 @@ function selectFallback(disease: string, target: string, drug: string) {
 const NCBI_BASE = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils'
 const API_KEY = process.env.NCBI_API_KEY ? `&api_key=${process.env.NCBI_API_KEY}` : ''
 
+// Convert slash-separated compound terms into PubMed OR expressions.
+// Bottleneck scenario presets use modality descriptors like
+// "PROTAC / Molecular glue degrader" or "EGFR / Tumor microenvironment"
+// which PubMed esearch treats as a single literal, collapsing matches to zero.
+// Splitting on "/" and joining with OR preserves the narrative intent.
+function expandSlashOr(term: string): string {
+  if (!term || !term.includes('/')) return term
+  const parts = term.split('/').map((p) => p.trim()).filter(Boolean)
+  if (parts.length <= 1) return term
+  const quoted = parts.map((p) => (p.includes(' ') ? `"${p}"` : p))
+  return `(${quoted.join(' OR ')})`
+}
+
 function buildQuery(disease: string, target: string, drug: string): string {
   const terms: string[] = []
-  if (disease) terms.push(disease)
-  if (target) terms.push(target)
-  if (drug) terms.push(drug)
+  if (disease) terms.push(expandSlashOr(disease))
+  if (target) terms.push(expandSlashOr(target))
+  if (drug) terms.push(expandSlashOr(drug))
   return terms.join(' AND ')
 }
 
