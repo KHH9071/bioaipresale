@@ -3,6 +3,7 @@
 import type { SolutionArea, DataMaturity } from '@/lib/types'
 import { DATA_MARKET_CONTENT } from '@/lib/rules/solution-content'
 import type { SolutionRouteResult } from '@/lib/types'
+import ScenarioBottleneckBanner from '@/components/common/ScenarioBottleneckBanner'
 import styles from './DataMarketGuide.module.css'
 
 interface Props {
@@ -23,6 +24,7 @@ export default function DataMarketGuide({ area, dataMaturity, solutionRoute }: P
   if (!content) {
     return (
       <div className={styles.placeholder}>
+        <ScenarioBottleneckBanner tab="trials" />
         <div className={styles.placeholderTitle}>데이터 & 시장 콘텐츠 준비 중</div>
         <p className={styles.placeholderText}>
           현재 선택된 솔루션 경로({solutionRoute.areaLabel})의 데이터 & 시장 가이드가 준비되고 있습니다.
@@ -40,6 +42,9 @@ export default function DataMarketGuide({ area, dataMaturity, solutionRoute }: P
 
   return (
     <div className={styles.wrapper}>
+      {/* 병목 시나리오가 active한 경우 상단에 시나리오 framing 노출 (self-gating). */}
+      <ScenarioBottleneckBanner tab="trials" />
+
       <div className={styles.header}>
         <div className={styles.title}>{content.title}</div>
         <p className={styles.summary}>{content.summary}</p>

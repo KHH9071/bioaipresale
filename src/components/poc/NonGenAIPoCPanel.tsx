@@ -2,6 +2,7 @@
 
 import type { SolutionArea } from '@/lib/types'
 import { getNonGenAIPoCProposal } from '@/lib/rules/non-genai-poc'
+import ScenarioBottleneckBanner from '@/components/common/ScenarioBottleneckBanner'
 import styles from './NonGenAIPoCPanel.module.css'
 
 interface Props {
@@ -14,6 +15,7 @@ export default function NonGenAIPoCPanel({ area }: Props) {
   if (!proposal) {
     return (
       <div className={styles.placeholder}>
+        <ScenarioBottleneckBanner tab="poc" />
         <div className={styles.placeholderTitle}>PoC 프레임워크 준비 중</div>
         <p className={styles.placeholderText}>선택된 솔루션 영역의 PoC 설계 프레임워크가 준비되고 있습니다.</p>
       </div>
@@ -22,6 +24,9 @@ export default function NonGenAIPoCPanel({ area }: Props) {
 
   return (
     <div className={styles.wrapper}>
+      {/* 병목 시나리오가 active한 경우 상단에 시나리오 framing 노출 (self-gating). */}
+      <ScenarioBottleneckBanner tab="poc" />
+
       {proposal.conceptNote && (
         <div className={styles.conceptNote}>
           <span className={styles.conceptNoteIcon}>!</span>
