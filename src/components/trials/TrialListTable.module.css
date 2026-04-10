@@ -7,23 +7,27 @@
 }
 
 .table {
-  /* table-layout: fixed locks column widths so the layout is consistent
-     across scenarios. Without this, long trial titles in some scenarios
-     (RWD, mutation-agnostic) cause the browser to reflow column widths. */
+  /* table-layout: fixed + percentage widths → every column scales
+     proportionally with the viewport. Without this, px-based columns
+     stayed pinned and only the trailing auto column (Country) absorbed
+     all the viewport delta, which looked like the table "wasn't
+     resizing" at all. min-width prevents catastrophic collapse on
+     very narrow viewports — below it, the wrapper scrolls horizontally. */
   table-layout: fixed;
   width: 100%;
+  min-width: 760px;
   border-collapse: collapse;
   font-size: 12px;
 }
 
-/* Column widths — sum ≈ 715px; the remaining Country column absorbs
-   the leftover space in the container. */
-.table th:nth-child(1), .table td:nth-child(1) { width: 100px; }  /* NCT ID */
-.table th:nth-child(2), .table td:nth-child(2) { width: 320px; }  /* Title */
-.table th:nth-child(3), .table td:nth-child(3) { width: 75px; }   /* Phase */
-.table th:nth-child(4), .table td:nth-child(4) { width: 100px; }  /* Status */
-.table th:nth-child(5), .table td:nth-child(5) { width: 160px; }  /* Sponsor */
-/* Country (6th) = remaining space */
+/* Column widths as percentages so all columns expand/contract with the
+   viewport while keeping consistent proportions across scenarios. */
+.table th:nth-child(1), .table td:nth-child(1) { width: 12%; }  /* NCT ID */
+.table th:nth-child(2), .table td:nth-child(2) { width: 34%; }  /* Title */
+.table th:nth-child(3), .table td:nth-child(3) { width: 8%; }   /* Phase */
+.table th:nth-child(4), .table td:nth-child(4) { width: 11%; }  /* Status */
+.table th:nth-child(5), .table td:nth-child(5) { width: 18%; }  /* Sponsor */
+.table th:nth-child(6), .table td:nth-child(6) { width: 17%; }  /* Country */
 
 .table th {
   padding: 8px 12px;
