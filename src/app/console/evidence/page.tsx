@@ -16,7 +16,7 @@ import styles from './evidence.module.css'
 
 export default function EvidencePage() {
   const { state } = useQuery()
-  const { input, solutionRoute, hasSearched } = state
+  const { input, solutionRoute, hasSearched, activeScenarioId } = state
 
   const [papers, setPapers] = useState<PubMedPaper[]>([])
   const [keywords, setKeywords] = useState<KeywordEntry[]>([])
@@ -27,7 +27,11 @@ export default function EvidencePage() {
   const [fetchedAt, setFetchedAt] = useState<Date | null>(null)
   const [reviewOnly, setReviewOnly] = useState(false)
 
-  const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area)
+  // 병목 시나리오가 active할 때는 consulting 모드(개념 가이드)를 우회하고
+  // 공개 근거 데이터(PubMed)를 항상 노출한다. 시나리오 배너 + signal context가
+  // 서사 오버레이를 담당하므로, 사용자는 "외부 데이터가 사라진" UX 불일치 없이
+  // 시나리오 관점에서 실제 문헌을 바로 읽을 수 있다.
+  const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area) || activeScenarioId !== null
 
   const load = useCallback(async () => {
     if (!hasSearched || !showGenAI) return

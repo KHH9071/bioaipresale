@@ -105,9 +105,13 @@ ${pocProposal.risks.map(r => `- ⚠ **${r.risk}** → ✓ ${r.guardrail}`).join(
 
 export default function PoCPage() {
   const { state, setPoCOptions } = useQuery()
-  const { pocProposal, pocOptions, solutionRoute, input, hasSearched, opportunity } = state
+  const { pocProposal, pocOptions, solutionRoute, input, hasSearched, opportunity, activeScenarioId } = state
 
-  const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area)
+  // 병목 시나리오가 active할 때는 consulting 모드(Non-GenAI PoC 패널)를 우회하고
+  // 시나리오 템플릿이 이미 override한 pocProposal을 그대로 GenAI 레이아웃으로 렌더한다.
+  // 이렇게 해야 Data & Market / Evidence 탭과 일관된 서사 — 실제 데이터 + 시나리오 배너 —
+  // 가 PoC 탭에서도 유지된다.
+  const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area) || activeScenarioId !== null
 
   const [briefOpen, setBriefOpen] = useState(false)
   const [copied, setCopied] = useState(false)

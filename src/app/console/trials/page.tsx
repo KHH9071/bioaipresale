@@ -143,7 +143,11 @@ export default function TrialsPage() {
   const [noCachedData, setNoCachedData] = useState(false)
   const [fetchedAt, setFetchedAt] = useState<Date | null>(null)
 
-  const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area)
+  // 병목 시나리오가 active할 때는 consulting 모드(데이터&시장 가이드)를 우회하고
+  // 공개 근거 데이터(ClinicalTrials.gov)를 항상 노출한다. signal-aware 렌더링이
+  // limited/moderate/strong 맥락을 제공하므로, 사용자는 시나리오 관점에서
+  // 실제 임상 데이터를 직접 확인할 수 있다.
+  const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area) || activeScenarioId !== null
 
   const load = useCallback(async () => {
     if (!hasSearched || !showGenAI) return
