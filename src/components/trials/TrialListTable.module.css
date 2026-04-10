@@ -7,10 +7,23 @@
 }
 
 .table {
+  /* table-layout: fixed locks column widths so the layout is consistent
+     across scenarios. Without this, long trial titles in some scenarios
+     (RWD, mutation-agnostic) cause the browser to reflow column widths. */
+  table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
   font-size: 12px;
 }
+
+/* Column widths — sum ≈ 715px; the remaining Country column absorbs
+   the leftover space in the container. */
+.table th:nth-child(1), .table td:nth-child(1) { width: 100px; }  /* NCT ID */
+.table th:nth-child(2), .table td:nth-child(2) { width: 320px; }  /* Title */
+.table th:nth-child(3), .table td:nth-child(3) { width: 75px; }   /* Phase */
+.table th:nth-child(4), .table td:nth-child(4) { width: 100px; }  /* Status */
+.table th:nth-child(5), .table td:nth-child(5) { width: 160px; }  /* Sponsor */
+/* Country (6th) = remaining space */
 
 .table th {
   padding: 8px 12px;
@@ -28,6 +41,8 @@
   padding: 9px 12px;
   border-bottom: 1px solid var(--border-muted);
   vertical-align: top;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .table tr:last-child td {
@@ -47,7 +62,6 @@
 
 .title {
   color: var(--fg);
-  max-width: 340px;
   line-height: 1.4;
 }
 
@@ -88,9 +102,9 @@
 }
 
 .sponsor {
+  display: block;
   color: var(--fg);
   white-space: nowrap;
-  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

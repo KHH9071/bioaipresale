@@ -50,6 +50,26 @@ function buildQuery(disease: string, target: string, drug: string): string {
   return terms.join(' AND ')
 }
 
+// Real PubMed XML ships text-bearing elements with attributes, e.g.
+//   <PMID Version="1">12345</PMID>
+//   <ArticleTitle book="...">Some title</ArticleTitle>
+// fast-xml-parser (ignoreAttributes: false) returns these as
+//   { "#text": "12345", "_Version": "1" }
+// A naive `String(node)` on that shape produces the literal "[object Object]",
+// which is exactly what the RWD/off-target scenarios displayed in the PMID
+// column. Unwrap defensively for every text-bearing field.
+function textOf(node: unknown): string {
+  if (node == null) return ''
+  if (typeof node === 'string') return node
+  if (typeof node === 'number') return String(node)
+  if (typeof node === 'object') {
+    const t = (node as Record<string, unknown>)['#text']
+    if (typeof t === 'string') return t
+    if (typeof t === 'number') return String(t)
+  }
+  return ''
+}
+
 function parsePubMedXml(xml: string): PubMedPaper[] {
   const parser = new XMLParser({
     ignoreAttributes: false,
@@ -77,8 +97,8 @@ function parsePubMedXml(xml: string): PubMedPaper[] {
     const journal = (articleNode.Journal as Record<string, unknown>) ?? {}
     const journalIssue = (journal.JournalIssue as Record<string, unknown>) ?? {}
     const pubDate = (journalIssue.PubDate as Record<string, unknown>) ?? {}
-    const pmid = String(medline.PMID ?? '')
-    const title = String((articleNode.ArticleTitle as string) ?? '')
+    const pmid = textOf(medline.PMID)
+    const title = textOf(articleNode.ArticleTitle)
 
     // Abstract can be string or array of objects
     const abstractNode = articleNode.Abstract as Record<string, unknown> | undefined
@@ -88,21 +108,21 @@ function parsePubMedXml(xml: string): PubMedPaper[] {
       if (typeof texts === 'string') {
         abstract = texts
       } else if (Array.isArray(texts)) {
-        abstract = texts
-          .map((t) => (typeof t === 'string' ? t : (t as Record<string, unknown>)['#text'] ?? ''))
-          .join(' ')
+        abstract = texts.map((t) => textOf(t)).join(' ')
+      } else {
+        abstract = textOf(texts)
       }
     }
 
-    const year = String(pubDate.Year ?? pubDate.MedlineDate ?? '')
-    const journalTitle = String((journal.Title as string) ?? (journal.ISOAbbreviation as string) ?? '')
+    const year = textOf(pubDate.Year) || textOf(pubDate.MedlineDate)
+    const journalTitle = textOf(journal.Title) || textOf(journal.ISOAbbreviation)
 
     return {
       pmid,
       title: title.replace(/<[^>]+>/g, ''),
       journal: journalTitle,
       year: year.slice(0, 4),
-      abstract: (abstract as string).replace(/<[^>]+>/g, '').slice(0, 400),
+      abstract: abstract.replace(/<[^>]+>/g, '').slice(0, 400),
     }
   }).filter((p: PubMedPaper) => p.pmid && p.title)
 }
