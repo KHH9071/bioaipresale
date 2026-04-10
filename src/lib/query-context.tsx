@@ -23,6 +23,7 @@ import type {
   BottleneckScenarioId,
 } from './types'
 import { generateScenarioAwareOutputs } from './scenarios/scenario-engine'
+import { getScenario, getScenarioIds } from './scenarios/registry'
 
 // ─── State ────────────────────────────────────────────────────────────────────
 
@@ -71,7 +72,10 @@ type QueryAction =
   | { type: 'SET_INPUT'; payload: Partial<QueryInput> }
   | { type: 'SET_POC_OPTIONS'; payload: Partial<PoCOptions> }
   | { type: 'SUBMIT_SEARCH' }
-  | { type: 'LOAD_FROM_URL'; payload: Partial<QueryInput> }
+  | {
+      type: 'LOAD_FROM_URL'
+      payload: { input: Partial<QueryInput>; scenarioId: BottleneckScenarioId | null }
+    }
   | { type: 'SET_SCENARIO'; payload: BottleneckScenarioId | null }
 
 function queryReducer(state: QueryState, action: QueryAction): QueryState {
@@ -97,14 +101,23 @@ function queryReducer(state: QueryState, action: QueryAction): QueryState {
       return { ...state, opportunity, pocProposal, solutionRoute, hasSearched: true, searchedAt: Date.now() }
     }
     case 'LOAD_FROM_URL': {
-      const input = { ...state.input, ...action.payload }
-      // URL로 로드할 때는 scenarioId가 없으므로 항상 기존 로직 사용
+      const input = { ...state.input, ...action.payload.input }
+      const scenarioId = action.payload.scenarioId
       const { opportunity, pocProposal, solutionRoute } = generateScenarioAwareOutputs(
         input,
         state.pocOptions,
-        null,
+        scenarioId,
       )
-      return { ...state, input, opportunity, pocProposal, solutionRoute, hasSearched: true, searchedAt: Date.now() }
+      return {
+        ...state,
+        input,
+        opportunity,
+        pocProposal,
+        solutionRoute,
+        hasSearched: true,
+        searchedAt: Date.now(),
+        activeScenarioId: scenarioId,
+      }
     }
     case 'SET_SCENARIO': {
       return { ...state, activeScenarioId: action.payload }
@@ -145,18 +158,52 @@ export function QueryProvider({ children }: { children: ReactNode }) {
     const problemDomain = searchParams.get('problemDomain') as ProblemDomain | null
     const dataMaturity = searchParams.get('dataMaturity') as DataMaturity | null
 
+    const scenarioParam = searchParams.get('scenario')
+    const validScenarioIds = getScenarioIds() as string[]
+    const scenarioId: BottleneckScenarioId | null =
+      scenarioParam && validScenarioIds.includes(scenarioParam)
+        ? (scenarioParam as BottleneckScenarioId)
+        : null
+
+    // Scenario-only deep-link: ?scenario=<id> with no other query params → auto-apply preset
+    if (scenarioId && !disease && !target && !drug && !problemDomain) {
+      const scenario = getScenario(scenarioId)
+      if (scenario) {
+        dispatch({
+          type: 'LOAD_FROM_URL',
+          payload: {
+            input: {
+              disease: scenario.presetInput.disease,
+              target: scenario.presetInput.target,
+              drug: scenario.presetInput.drug,
+              objective: scenario.presetInput.objective as BusinessObjective,
+              region: scenario.presetInput.region as Region,
+              timeYears: scenario.presetInput.timeYears as TimeYears,
+              problemDomain: scenario.presetInput.problemDomain as ProblemDomain,
+              dataMaturity: scenario.presetInput.dataMaturity as DataMaturity,
+            },
+            scenarioId,
+          },
+        })
+        return
+      }
+    }
+
     if (disease || target || drug || problemDomain) {
       dispatch({
         type: 'LOAD_FROM_URL',
         payload: {
-          disease,
-          target,
-          drug,
-          objective: objective ?? 'literature_intelligence',
-          region: region ?? 'Global',
-          timeYears: timeYears ? (parseInt(timeYears) as TimeYears) : 5,
-          problemDomain: problemDomain ?? 'literature_regulatory',
-          dataMaturity: dataMaturity ?? 'developing',
+          input: {
+            disease,
+            target,
+            drug,
+            objective: objective ?? 'literature_intelligence',
+            region: region ?? 'Global',
+            timeYears: timeYears ? (parseInt(timeYears) as TimeYears) : 5,
+            problemDomain: problemDomain ?? 'literature_regulatory',
+            dataMaturity: dataMaturity ?? 'developing',
+          },
+          scenarioId,
         },
       })
     }
@@ -188,10 +235,11 @@ export function QueryProvider({ children }: { children: ReactNode }) {
     params.set('timeYears', String(state.input.timeYears))
     params.set('problemDomain', state.input.problemDomain)
     params.set('dataMaturity', state.input.dataMaturity)
+    if (state.activeScenarioId) params.set('scenario', state.activeScenarioId)
 
     const newUrl = `${pathname}?${params.toString()}`
     router.replace(newUrl, { scroll: false })
-  }, [state.input, pathname, router])
+  }, [state.input, state.activeScenarioId, pathname, router])
 
   return (
     <QueryContext.Provider value={{ state, setInput, setPoCOptions, submitSearch, setScenario }}>

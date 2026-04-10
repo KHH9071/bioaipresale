@@ -140,6 +140,7 @@ export default function TrialsPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isFallback, setIsFallback] = useState(false)
+  const [noCachedData, setNoCachedData] = useState(false)
   const [fetchedAt, setFetchedAt] = useState<Date | null>(null)
 
   const showGenAI = !solutionRoute || isGenAIPath(solutionRoute.area)
@@ -153,10 +154,12 @@ export default function TrialsPage() {
       setStudies(data.studies)
       setTotal(data.total)
       setIsFallback(data.fallback)
+      setNoCachedData(Boolean(data.noCachedData))
       setFetchedAt(new Date())
     } catch {
       setError('Failed to fetch trial data. Showing example results.')
       setIsFallback(true)
+      setNoCachedData(false)
     } finally {
       setLoading(false)
     }
@@ -168,7 +171,9 @@ export default function TrialsPage() {
 
   const phaseData = computePhaseCounts(studies)
   const sponsorData = computeSponsorCounts(studies)
-  const interpretation = hasSearched && showGenAI ? generateTrialInterpretation(studies, total, activeScenarioId) : null
+  const interpretation = hasSearched && showGenAI && !noCachedData
+    ? generateTrialInterpretation(studies, total, activeScenarioId)
+    : null
   const signalContext = hasSearched && showGenAI ? getScenarioSignalContext(activeScenarioId) : null
 
   return (
@@ -231,8 +236,10 @@ export default function TrialsPage() {
 
             <div className={styles.dataBar}>
               <span className={styles.sourceBadge}>출처: ClinicalTrials.gov v2</span>
-              {isFallback ? (
+              {isFallback && !noCachedData ? (
                 <span className={styles.fallbackBadge}>⚠ 예비 데이터 사용 중 — 실시간 API 미응답</span>
+              ) : noCachedData ? (
+                <span className={styles.fallbackBadge}>⚠ 캐시된 샘플 없음 — 이 쿼리는 실시간 API 응답이 필요합니다</span>
               ) : fetchedAt ? (
                 <span className={styles.fetchedAt}>
                   조회 {fetchedAt.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
@@ -241,20 +248,29 @@ export default function TrialsPage() {
             </div>
             {error && <div className={styles.error}>{error}</div>}
 
-            {/* limited 시나리오: 임상 데이터 섹션을 dimmed wrapper로 감쌈 */}
-            <div className={signalContext?.dimTrialData ? styles.trialDataDimmed : undefined}>
-              <TrialSummaryCards studies={studies} total={total} />
-
-              <div className={styles.chartRow}>
-                <PhaseChart data={phaseData} />
-                <SponsorTable sponsors={sponsorData} />
+            {noCachedData ? (
+              <div className={styles.empty}>
+                <div className={styles.emptyTitle}>이 쿼리에 대한 캐시된 샘플이 없습니다</div>
+                <p className={styles.emptyText}>
+                  실시간 ClinicalTrials.gov API가 응답하지 않으면 임상시험 결과를 표시할 수 없습니다. 시나리오 해석·PoC 설계·아키텍처 탭은 임상 데이터 없이도 정상 동작합니다.
+                </p>
               </div>
+            ) : (
+              /* limited 시나리오: 임상 데이터 섹션을 dimmed wrapper로 감쌈 */
+              <div className={signalContext?.dimTrialData ? styles.trialDataDimmed : undefined}>
+                <TrialSummaryCards studies={studies} total={total} />
 
-              <div className={styles.section}>
-                <div className={styles.sectionLabel}>임상시험 목록 ({studies.length}건)</div>
-                <TrialListTable studies={studies} />
+                <div className={styles.chartRow}>
+                  <PhaseChart data={phaseData} />
+                  <SponsorTable sponsors={sponsorData} />
+                </div>
+
+                <div className={styles.section}>
+                  <div className={styles.sectionLabel}>임상시험 목록 ({studies.length}건)</div>
+                  <TrialListTable studies={studies} />
+                </div>
               </div>
-            </div>
+            )}
 
             {interpretation && (
               <InterpretationBox text={interpretation} />

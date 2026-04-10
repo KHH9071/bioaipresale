@@ -4,6 +4,7 @@ export interface TrialsResponse {
   studies: ClinicalTrial[]
   total: number
   fallback: boolean
+  noCachedData?: boolean
 }
 
 export async function fetchTrials(

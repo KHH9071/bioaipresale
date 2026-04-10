@@ -23,6 +23,7 @@ export default function EvidencePage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isFallback, setIsFallback] = useState(false)
+  const [noCachedData, setNoCachedData] = useState(false)
   const [fetchedAt, setFetchedAt] = useState<Date | null>(null)
   const [reviewOnly, setReviewOnly] = useState(false)
 
@@ -37,10 +38,12 @@ export default function EvidencePage() {
       setPapers(data.papers)
       setKeywords(extractKeywords(data.papers))
       setIsFallback(data.fallback)
+      setNoCachedData(Boolean(data.noCachedData))
       setFetchedAt(new Date())
     } catch {
       setError('Failed to fetch PubMed data. Showing example results.')
       setIsFallback(true)
+      setNoCachedData(false)
     } finally {
       setLoading(false)
     }
@@ -82,8 +85,11 @@ export default function EvidencePage() {
                 {loading ? '로딩 중...' : `논문 ${papers.length}편`}
               </span>
               <span className={styles.sourceBadge}>출처: PubMed / NCBI</span>
-              {isFallback && (
+              {isFallback && !noCachedData && (
                 <span className={styles.fallbackBadge}>⚠ 예비 데이터 사용 중 — 실시간 API 미응답</span>
+              )}
+              {noCachedData && (
+                <span className={styles.fallbackBadge}>⚠ 캐시된 샘플 없음 — 이 쿼리는 실시간 API 응답이 필요합니다</span>
               )}
               {fetchedAt && !isFallback && (
                 <span className={styles.fetchedAt}>
@@ -107,6 +113,13 @@ export default function EvidencePage() {
                 {[...Array(5)].map((_, i) => (
                   <div key={i} className={styles.skeletonRow} />
                 ))}
+              </div>
+            ) : noCachedData ? (
+              <div className={styles.empty}>
+                <div className={styles.emptyTitle}>이 쿼리에 대한 캐시된 샘플이 없습니다</div>
+                <p className={styles.emptyText}>
+                  실시간 PubMed API가 응답하지 않으면 문헌 결과를 표시할 수 없습니다. 시나리오 프레이밍·PoC 설계·아키텍처 탭은 문헌 데이터 없이도 정상 동작합니다.
+                </p>
               </div>
             ) : (
               <>

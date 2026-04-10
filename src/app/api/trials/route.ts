@@ -12,7 +12,17 @@ function selectFallback(disease: string, target: string, drug: string) {
   if (q.includes('her2') || q.includes('breast cancer') || q.includes('t-dxd') || q.includes('trastuzumab deruxtecan')) {
     return fallbackHer2
   }
-  return fallbackLungCancer
+  if (
+    q.includes('lung') ||
+    q.includes('nsclc') ||
+    q.includes('kras') ||
+    q.includes('sotorasib') ||
+    q.includes('adagrasib')
+  ) {
+    return fallbackLungCancer
+  }
+  // No matching fixture — signal "no cached data" rather than leaking unrelated disease data
+  return null
 }
 
 const CT_BASE = 'https://clinicaltrials.gov/api/v2'
@@ -94,6 +104,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ studies, total: json.totalCount ?? studies.length, fallback: false })
   } catch (err) {
     console.error('[Trials API] Error, serving fallback:', err)
-    return NextResponse.json({ ...selectFallback(disease, target, drug), fallback: true })
+    const fallbackData = selectFallback(disease, target, drug)
+    if (fallbackData) {
+      return NextResponse.json({ ...fallbackData, fallback: true })
+    }
+    return NextResponse.json({ studies: [], total: 0, fallback: true, noCachedData: true })
   }
 }

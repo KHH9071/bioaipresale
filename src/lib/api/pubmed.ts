@@ -3,6 +3,7 @@ import type { PubMedPaper, QueryInput } from '../types'
 export interface PubMedResponse {
   papers: PubMedPaper[]
   fallback: boolean
+  noCachedData?: boolean
 }
 
 export async function fetchPubMed(
