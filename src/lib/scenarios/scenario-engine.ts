@@ -142,7 +142,7 @@ export function inferScenarioHint(
   if (t.includes('kras') || t.includes('mycn') || t.includes('myc')) return 'undruggable_target'
   if (d.includes('rheumatoid') || d.includes('lupus') || d.includes('crohn') || d.includes('autoimmune')) return 'rwd_autoimmune'
   if (d.includes('duchenne') || d.includes('dmd') || t.includes('dystrophin') || t.includes('exon')) return 'mutation_agnostic'
-  if (t.includes('egfr') || t.includes('lnp') || t.includes('adc') || t.includes('tumor microenvironment')) return 'off_target_toxicity'
+  if (d.includes('glioblastoma') || d.includes('gbm') || t.includes('egfrviii') || t.includes('lnp') || t.includes('adc') || t.includes('tumor microenvironment')) return 'off_target_toxicity'
 
   return null
 }

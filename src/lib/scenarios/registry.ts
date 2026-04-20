@@ -289,11 +289,11 @@ const SCENARIOS: PresalesScenario[] = [
     shortLabel: '전신 독성 / 스마트 전달 전략',
     category: '전달 전략 병목',
     bottleneckSummary:
-      '효능은 검증된 후보가 전신 독성 때문에 개발이 막힌 상황에서, 국소·스마트 전달 전략으로 재구성하기 위한 데이터/AI 지원이 필요합니다.',
-    tags: ['off-target toxicity', 'smart delivery', 'LNP', 'ADC', 'nanoparticle', 'local release', 'formulation', 'TME'],
+      '표적은 검증됐으나 혈뇌장벽(BBB)과 payload 전신 독성이 전달 병목인 상황에서, 국소·스마트 전달(ADC·LNP·국소 방출) 전략 재구성을 위한 데이터/AI 지원이 필요합니다.',
+    tags: ['off-target toxicity', 'smart delivery', 'BBB', 'GBM', 'EGFRvIII', 'LNP', 'ADC', 'nanoparticle', 'local release', 'formulation', 'TME'],
     presetInput: {
-      disease: 'Colorectal cancer',
-      target: 'EGFR / Tumor microenvironment',
+      disease: 'Glioblastoma',
+      target: 'EGFRvIII / Tumor microenvironment',
       drug: 'LNP / ADC / Local delivery system',
       objective: 'literature_intelligence',
       region: 'Global',
@@ -304,11 +304,11 @@ const SCENARIOS: PresalesScenario[] = [
     tabContent: {
       overview: {
         customerRequest:
-          '"효능은 확인됐는데 전신 독성이 걸림돌입니다. 국소 전달이나 스마트 전달 전략으로 전환 가능성을 빠르게 평가하고 싶습니다."',
+          '"표적(EGFRvIII 등)은 검증됐는데 혈뇌장벽과 payload 전신 독성이 걸림돌입니다. ADC·LNP·국소 방출 전달 전략으로의 전환 가능성을 빠르게 평가하고 싶습니다."',
         rootProblem:
-          '전신 투여 시 독성-효능 tradeoff가 치명적으로 작용하며, 전달 전략 전환(LNP·ADC·국소 방출)을 검토하려 해도 formulation별 근거와 독성 데이터가 분산되어 체계적 평가가 어렵습니다.',
+          'GBM은 BBB 투과성이 낮고 전신 투여 payload의 off-tumor 독성이 치명적으로 작용합니다. 전달 전략 전환(ADC·LNP·CED·국소 방출)을 검토하려 해도 formulation별 근거와 독성 데이터가 분산되어 체계적 평가가 어렵습니다. Depatuxizumab-mafodotin(EGFRvIII-ADC) Phase 3 실패 등 실제 사례가 전달 최적화의 중요성을 보여줍니다.',
         whyNow:
-          'ADC, 지질 나노입자(LNP), 국소 방출 시스템 기술이 임상 적용 가능 수준으로 성숙했으며, 전달 최적화로 개발 실패 후보를 구제한 사례가 늘고 있습니다. 경쟁사들이 전달 전략 차별화를 빠르게 추진 중입니다.',
+          'BBB 투과 LNP, payload 특이적 ADC, CED·하이드로겔 기반 국소 방출 기술이 임상 적용 가능 수준으로 성숙했으며, 전달 최적화로 실패 후보를 구제한 사례가 늘고 있습니다. 경쟁사들이 GBM·고형암 전달 전략 차별화를 빠르게 추진 중입니다.',
         opportunityNote:
           '문헌 기반 전달 전략 탐색·근거 합성으로 후보 재구성 평가 속도를 높이는 PoC가 명확한 기회입니다. Formulation 선택과 적응증별 전달 전략 매핑이 핵심 가치입니다.',
         aiOpportunities: [
@@ -327,7 +327,7 @@ const SCENARIOS: PresalesScenario[] = [
           'Local release 관련 전임상 논문 필터링 및 근거 수준 평가',
         ],
         searchHint:
-          '"ADC", "LNP", "nanoparticle delivery", "local release", "off-target toxicity", "formulation optimization", "therapeutic index" 키워드를 활용하면 시나리오에 적합한 문헌을 탐색할 수 있습니다.',
+          '"EGFRvIII", "depatuxizumab", "blood-brain barrier", "convection-enhanced delivery", "ADC", "LNP", "nanoparticle delivery", "local release", "off-target toxicity", "therapeutic index" 키워드를 활용하면 시나리오에 적합한 문헌을 탐색할 수 있습니다.',
       },
       trials: {
         signalMode: 'moderate',
