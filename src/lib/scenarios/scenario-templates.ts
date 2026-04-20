@@ -10,7 +10,7 @@
  * - trial signal이 약한 시나리오는 그 사실을 로직에 반영
  */
 
-import type { KPIItem, PoCProposal, WeekScope, QueryInput } from '../types'
+import type { KPIItem, PoCProposal, WeekScope, QueryInput, SolutionArea } from '../types'
 import type { BottleneckScenarioId } from './types'
 
 // ─── Helper ──────────────────────────────────────────────────────────────────
@@ -44,6 +44,11 @@ export interface ScenarioGeneratorTemplate {
   discoveryQuestions: string[]
   requiredDataAssets: string[]
   architectureHint: string
+  // area/areaLabel은 선택적 override — 지정 시 base routing 결과를 덮어씀.
+  // 시나리오가 presales 서사를 주도하는 경우 라벨 불일치(예: rwd_autoimmune의
+  // base area='edp' → "엔터프라이즈 데이터 플랫폼")를 방지하기 위함.
+  area?: SolutionArea
+  areaLabel?: string
 }
 
 // ─── 시나리오 1: 공략 불가 표적 / 단백질 분해 전략 ──────────────────────────
@@ -313,6 +318,8 @@ const RWD_AUTOIMMUNE: ScenarioGeneratorTemplate = {
   ],
   architectureHint:
     '공개 RWE 문헌 + 가이드라인 → 수집/ETL → 환자 특성·치료 메타데이터 정규화 → 세분화 인덱스 → LLM 합성 → Governed Analytics 레이어 → 치료 지원 대시보드 (2단계: EMR 직접 연동)',
+  area: 'edp',
+  areaLabel: 'RWD 인텔리전스 플랫폼 (EDP 기반)',
 }
 
 // ─── 시나리오 3: 돌연변이 의존 확장성 한계 / 편집 전략 ───────────────────────
@@ -446,6 +453,8 @@ const MUTATION_AGNOSTIC: ScenarioGeneratorTemplate = {
   ],
   architectureHint:
     'PubMed + bioRxiv + 플랫폼 공개 DB → 수집/ETL → Evidence level 태깅 및 경로·기술 분류 → 다중 소스 통합 검색 → LLM 근거 합성 → 전문가 검토 게이트 (높은 불확실성 반영) → 가설 지지 보고서 출력',
+  area: 'structure_prediction',
+  areaLabel: '플랫폼 전략 · 편집 기술 인사이트',
 }
 
 // ─── 시나리오 4: 전신 독성 한계 / 국소 스마트 전달 ─────────────────────────

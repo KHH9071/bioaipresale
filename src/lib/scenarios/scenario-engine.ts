@@ -92,9 +92,12 @@ export function getScenarioAwareSolutionRoute(
   const tmpl = SCENARIO_TEMPLATES[scenarioId]
   if (!tmpl) return base
 
-  // area는 유지, rationale / discoveryQuestions / requiredDataAssets / architectureHint만 override
+  // 시나리오가 area/areaLabel을 명시하면 base routing을 덮어씀.
+  // (예: rwd_autoimmune 'data_infrastructure' → base 'edp' 대신 시나리오 서사에 맞춘 라벨)
   return {
     ...base,
+    area: tmpl.area ?? base.area,
+    areaLabel: tmpl.areaLabel ?? base.areaLabel,
     rationale: tmpl.rationale,
     discoveryQuestions: tmpl.discoveryQuestions,
     requiredDataAssets: tmpl.requiredDataAssets,
