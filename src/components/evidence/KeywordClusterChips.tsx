@@ -10,7 +10,7 @@ export default function KeywordClusterChips({ keywords }: Props) {
 
   return (
     <div className={styles.section}>
-      <div className={styles.label}>Key Terms / Themes</div>
+      <div className={styles.label}>주요 용어 / 클러스터</div>
       <div className={styles.chips}>
         {keywords.slice(0, 15).map((kw) => (
           <span key={kw.term} className={styles.chip}>

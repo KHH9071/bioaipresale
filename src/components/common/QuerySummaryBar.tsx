@@ -5,7 +5,7 @@ import styles from './QuerySummaryBar.module.css'
 
 const OBJECTIVE_SHORT: Record<string, string> = {
   literature_intelligence: '문헌 인텔리전스',
-  trial_scouting: '임상시험 스카우팅',
+  trial_scouting: '임상시험 탐색',
   label_regulatory: '라벨 / 규제',
   scientific_qa: '과학 Q&A',
   kol_sponsor_landscape: 'KOL / 스폰서',

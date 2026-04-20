@@ -14,7 +14,7 @@ interface Props {
 
 const MATURITY_LABEL: Record<DataMaturity, string> = {
   nascent: '초기 단계',
-  developing: '개발 중',
+  developing: '구축 중',
   established: '성숙 단계',
 }
 
@@ -25,9 +25,9 @@ export default function DataMarketGuide({ area, dataMaturity, solutionRoute }: P
     return (
       <div className={styles.placeholder}>
         <ScenarioBottleneckBanner tab="trials" />
-        <div className={styles.placeholderTitle}>데이터 & 시장 콘텐츠 준비 중</div>
+        <div className={styles.placeholderTitle}>임상 동향 콘텐츠 준비 중</div>
         <p className={styles.placeholderText}>
-          현재 선택된 솔루션 경로({solutionRoute.areaLabel})의 데이터 & 시장 가이드가 준비되고 있습니다.
+          현재 선택된 솔루션 경로({solutionRoute.areaLabel})의 임상 동향 가이드가 준비되고 있습니다.
         </p>
       </div>
     )

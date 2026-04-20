@@ -125,10 +125,10 @@ function generateTrialInterpretation(
   if (total === 0) return '해당 쿼리에서 활성 임상시험 데이터를 찾을 수 없습니다. 초기 단계 적응증이거나 데이터가 부족한 경우일 수 있으며, 이 단계에서는 문헌 인텔리전스 PoC가 더 적합할 수 있습니다.'
 
   if (phaseIIICount >= 3) {
-    return `높은 임상 활동이 감지되었습니다: 총 ${total}건, 현재 모집 중 ${recruiting}건, 고유 스폰서 ${sponsorCount}개사. ${phaseIIICount}건의 Phase III 임상시험은 성숙한 경쟁 구도를 시사하며, 스폰서 인텔리전스 및 임상 스카우팅의 BD 우선순위가 높습니다.`
+    return `높은 임상 활동이 감지되었습니다: 총 ${total}건, 현재 모집 중 ${recruiting}건, 고유 스폰서 ${sponsorCount}개사. ${phaseIIICount}건의 Phase III 임상시험은 성숙한 경쟁 구도를 시사하며, 스폰서 인텔리전스 및 임상시험 탐색의 BD 우선순위가 높습니다.`
   }
 
-  return `중간 수준의 임상 활동이 확인됩니다: 총 ${total}건, ${sponsorCount}개 스폰서에 걸쳐 ${recruiting}건 모집 중. 초기~중기 단계 집중은 신흥 적응증임을 시사하며, 선제적 임상 모니터링과 경쟁사 스카우팅이 유의미한 BD 우위를 제공할 수 있습니다.`
+  return `중간 수준의 임상 활동이 확인됩니다: 총 ${total}건, ${sponsorCount}개 스폰서에 걸쳐 ${recruiting}건 모집 중. 초기~중기 단계 집중은 신흥 적응증임을 시사하며, 선제적 임상 모니터링과 경쟁사 탐색이 유의미한 BD 우위를 제공할 수 있습니다.`
 }
 
 export default function TrialsPage() {
@@ -143,7 +143,7 @@ export default function TrialsPage() {
   const [noCachedData, setNoCachedData] = useState(false)
   const [fetchedAt, setFetchedAt] = useState<Date | null>(null)
 
-  // 병목 시나리오가 active할 때는 consulting 모드(데이터&시장 가이드)를 우회하고
+  // 병목 시나리오가 active할 때는 consulting 모드(임상 동향 가이드)를 우회하고
   // 공개 근거 데이터(ClinicalTrials.gov)를 항상 노출한다. signal-aware 렌더링이
   // limited/moderate/strong 맥락을 제공하므로, 사용자는 시나리오 관점에서
   // 실제 임상 데이터를 직접 확인할 수 있다.
@@ -183,9 +183,9 @@ export default function TrialsPage() {
   return (
     <div>
       <SectionHeader
-        title="데이터 & 시장"
+        title="임상 동향"
         subtitle={showGenAI
-          ? '분산된 임상시험 신호를 비즈니스 판독 가능한 랜드스케이프로 전환'
+          ? 'ClinicalTrials.gov 기반 경쟁 환경·스폰서 랜드스케이프 파악'
           : '데이터 성숙도 진단 및 시장 맥락 가이드'
         }
       />
@@ -194,7 +194,7 @@ export default function TrialsPage() {
         {!hasSearched ? (
           <div className={styles.empty}>
             <div className={styles.emptyTitle}>먼저 진단을 실행하세요</div>
-            <p className={styles.emptyText}>문제 유형을 선택하고 진단 실행을 클릭하면 데이터 & 시장 콘텐츠가 로드됩니다.</p>
+            <p className={styles.emptyText}>문제 유형을 선택하고 진단 실행을 클릭하면 임상 동향 콘텐츠가 로드됩니다.</p>
           </div>
         ) : !showGenAI && solutionRoute ? (
           <DataMarketGuide

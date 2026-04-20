@@ -65,9 +65,9 @@ export default function EvidencePage() {
   return (
     <div>
       <SectionHeader
-        title="솔루션 탐색"
+        title="근거"
         subtitle={showGenAI
-          ? '문헌 검색·클러스터링을 통해 영업 제안용 인사이트로 전환'
+          ? 'PubMed 공개 문헌으로 가설 검증·주제 클러스터링'
           : '선택된 솔루션 영역의 개념 가이드 및 진단 질문'
         }
       />
@@ -76,7 +76,7 @@ export default function EvidencePage() {
         {!hasSearched ? (
           <div className={styles.empty}>
             <div className={styles.emptyTitle}>먼저 진단을 실행하세요</div>
-            <p className={styles.emptyText}>문제 유형을 선택하고 진단 실행을 클릭하면 솔루션 탐색 콘텐츠가 로드됩니다.</p>
+            <p className={styles.emptyText}>문제 유형을 선택하고 진단 실행을 클릭하면 근거 탭 콘텐츠가 로드됩니다.</p>
           </div>
         ) : !showGenAI && solutionRoute ? (
           <SolutionConceptGuide area={solutionRoute.area} solutionRoute={solutionRoute} />

@@ -25,7 +25,7 @@ export type ProblemDomain =
 
 export type DataMaturity =
   | 'nascent'      // 초기 단계 (분산·비구조화)
-  | 'developing'   // 개발 중 (일부 구조화, 사일로 존재)
+  | 'developing'   // 구축 중 (일부 구조화, 사일로 존재)
   | 'established'  // 성숙 단계 (통합 파이프라인 운영 중)
 
 export type SolutionArea =

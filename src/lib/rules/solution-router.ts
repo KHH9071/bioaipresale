@@ -201,7 +201,7 @@ export const PROBLEM_DOMAIN_LABELS: Record<ProblemDomain, string> = {
 
 export const DATA_MATURITY_LABELS: Record<string, string> = {
   nascent: '초기 단계 (분산·비구조화)',
-  developing: '개발 중 (일부 구조화, 사일로 존재)',
+  developing: '구축 중 (일부 구조화, 사일로 존재)',
   established: '성숙 단계 (통합 파이프라인 운영 중)',
 }
 

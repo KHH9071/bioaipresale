@@ -54,7 +54,7 @@ const OBJECTIVE_MAP: Record<BusinessObjective, ObjectiveRule> = {
     ],
     kpis: [
       {
-        metric: '스카우팅 시간 단축',
+        metric: '임상 탐색 시간 단축',
         target: '임상 동향 브리핑 생성 시간 50% 이상 감소',
         baseline: '도입 전후 분석가 업무 시간 로그 비교',
       },

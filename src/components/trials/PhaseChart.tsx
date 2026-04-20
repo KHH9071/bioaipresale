@@ -23,7 +23,7 @@ export default function PhaseChart({ data }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.label}>Phase Distribution</div>
+      <div className={styles.label}>Phase별 분포</div>
       <ResponsiveContainer width="100%" height={180}>
         <BarChart data={data} margin={{ top: 8, right: 16, left: -16, bottom: 4 }}>
           <XAxis

@@ -91,7 +91,7 @@ const SIX_WEEK_SCOPE: Record<BusinessObjective, WeekScope[]> = {
     { week: 3, title: '랜드스케이프 분석', description: '임상 단계 분포, 스폰서 빈도, 지역 클러스터링 구현 및 경쟁 신호 표면화' },
     { week: 4, title: '대시보드 및 알림 구축', description: '랜드스케이프 대시보드 UI 구축, 상태 변경 알림 로직 구현, 단계/상태/스폰서 유형별 필터 추가' },
     { week: 5, title: 'BD팀 검토', description: 'BD팀 워크스루, 경쟁 인텔리전스 커버리지 검증, 알림 임계값 및 표시 형식 개선' },
-    { week: 6, title: 'KPI 측정 및 데모', description: '스카우팅 시간 벤치마크, 전문가 기준 대비 커버리지 재현율, 이해관계자 데모, PoC 보고서' },
+    { week: 6, title: 'KPI 측정 및 데모', description: '임상 탐색 시간 벤치마크, 전문가 기준 대비 커버리지 재현율, 이해관계자 데모, PoC 보고서' },
   ],
   label_regulatory: [
     { week: 1, title: '규제 코퍼스 정의', description: '목표 라벨 및 가이던스 문서 식별, 문서 접근 확보, 규제 담당 팀과 쿼리 분류 체계 정의' },

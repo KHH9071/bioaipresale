@@ -10,13 +10,13 @@ export default function SponsorTable({ sponsors }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.label}>Top Sponsors</div>
+      <div className={styles.label}>주요 스폰서</div>
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>Sponsor</th>
-            <th>Trials</th>
-            <th>Primary Condition</th>
+            <th>스폰서</th>
+            <th>임상시험 수</th>
+            <th>주요 적응증</th>
           </tr>
         </thead>
         <tbody>

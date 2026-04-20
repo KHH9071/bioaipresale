@@ -257,7 +257,7 @@ export default function QueryInputPanel() {
               onChange={(e) => setInput({ objective: e.target.value as BusinessObjective })}
             >
               <option value="literature_intelligence">문헌 인텔리전스</option>
-              <option value="trial_scouting">임상시험 스카우팅</option>
+              <option value="trial_scouting">임상시험 탐색</option>
               <option value="label_regulatory">라벨 / 규제 인텔리전스</option>
               <option value="scientific_qa">과학 Q&amp;A</option>
               <option value="kol_sponsor_landscape">KOL / 스폰서 랜드스케이프</option>
@@ -271,7 +271,7 @@ export default function QueryInputPanel() {
               onChange={(e) => setInput({ dataMaturity: e.target.value as DataMaturity })}
             >
               <option value="nascent">초기 단계 (분산·비구조화)</option>
-              <option value="developing">개발 중 (일부 구조화)</option>
+              <option value="developing">구축 중 (일부 구조화)</option>
               <option value="established">성숙 단계 (통합 파이프라인)</option>
             </select>
           </div>

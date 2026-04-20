@@ -18,7 +18,7 @@ export interface ScenarioTabContent {
   }
   evidence: {
     signalNote: string            // 데이터 신호 수준 설명
-    aiOpportunities: string[]     // 솔루션 탐색에서 강조할 AI 포인트
+    aiOpportunities: string[]     // 근거 탭에서 강조할 AI 포인트
     searchHint: string            // 탐색 가이드 힌트
   }
   trials: {

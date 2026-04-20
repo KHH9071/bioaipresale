@@ -188,7 +188,7 @@ export const DATA_MARKET_CONTENT: Partial<Record<SolutionArea, DataMarketContent
           '데이터 인벤토리 작성과 소규모 파이럿 통합(1~2개 데이터 소스)으로 시작. 중앙 파일 스토리지(S3/SharePoint)를 먼저 확보.',
       },
       {
-        stage: '개발 중 (developing): 일부 구조화, 사일로 존재',
+        stage: '구축 중 (developing): 일부 구조화, 사일로 존재',
         signals: [
           '부서별 DB/LIMS는 있지만 통합 뷰 없음',
           'ETL 스크립트가 있지만 수동 실행·유지보수',

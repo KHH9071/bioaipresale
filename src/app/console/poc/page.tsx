@@ -13,7 +13,7 @@ const WEEK_COLORS = ['#58A6FF', '#3FB950', '#D29922', '#BC8CFF', '#F85149', '#8B
 
 const OBJECTIVE_LABELS: Record<string, string> = {
   literature_intelligence: '문헌 인텔리전스',
-  trial_scouting: '임상시험 스카우팅',
+  trial_scouting: '임상시험 탐색',
   label_regulatory: '라벨 / 규제 인텔리전스',
   scientific_qa: '과학 Q&A',
   kol_sponsor_landscape: 'KOL / 스폰서 랜드스케이프',
@@ -169,7 +169,7 @@ export default function PoCPage() {
                   value={pocOptions.primaryUser}
                   onChange={(e) => setPoCOptions({ primaryUser: e.target.value as PrimaryUser })}
                 >
-                  <option value="research_scientist">연구원 (Research Scientist)</option>
+                  <option value="research_scientist">연구원</option>
                   <option value="medical_affairs">메디컬 어페어스</option>
                   <option value="bd_strategy">BD / 전략</option>
                   <option value="regulatory">규제 / 라벨링</option>

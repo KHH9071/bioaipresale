@@ -91,7 +91,7 @@ export default function ScenarioBottleneckBanner({ tab }: Props) {
         <div className={styles.body}>
           <div className={styles.fieldLabel}>데이터 신호 맥락</div>
           <p className={styles.fieldText}>{content.evidence.signalNote}</p>
-          <div className={styles.fieldLabel} style={{ marginTop: 10 }}>솔루션 탐색 포인트</div>
+          <div className={styles.fieldLabel} style={{ marginTop: 10 }}>AI 적용 포인트</div>
           <ul className={styles.bulletList}>
             {content.evidence.aiOpportunities.map((item, i) => (
               <li key={i}>{item}</li>
