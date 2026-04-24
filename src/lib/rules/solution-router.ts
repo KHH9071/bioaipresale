@@ -183,6 +183,17 @@ export function buildSecondary(area: SolutionArea) {
   }
 }
 
+// area에 딸린 concept/disclaimer 메타를 조회하는 헬퍼.
+// 시나리오 엔진이 area를 override할 때, 새 area 기준으로 conceptDiscussionOnly/disclaimerText를
+// 재계산하기 위해 사용.
+export function getAreaConceptMeta(area: SolutionArea) {
+  const rule = SOLUTION_AREA_MAP[area]
+  return {
+    conceptDiscussionOnly: rule.conceptDiscussionOnly,
+    disclaimerText: rule.disclaimerText,
+  }
+}
+
 // ─── Routing Logic ─────────────────────────────────────────────────────────────
 
 function resolveArea(input: QueryInput): SolutionArea {
