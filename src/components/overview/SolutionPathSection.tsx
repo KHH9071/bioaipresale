@@ -16,6 +16,7 @@ export default function SolutionPathSection({ solutionRoute }: Props) {
     architectureHint,
     conceptDiscussionOnly,
     disclaimerText,
+    secondary,
   } = solutionRoute
 
   return (
@@ -62,6 +63,16 @@ export default function SolutionPathSection({ solutionRoute }: Props) {
         <span className={styles.archHintLabel}>아키텍처 방향</span>
         <span className={styles.archHintText}>{architectureHint}</span>
       </div>
+
+      {secondary && (
+        <div className={styles.secondaryHint}>
+          <span className={styles.secondaryHintLabel}>또 다른 접근</span>
+          <span className={styles.secondaryHintText}>
+            같은 문제 도메인 안에서 <strong>{secondary.areaLabel}</strong> 접근도 병치 가능합니다 —
+            참조 아키텍처 탭 하단에서 보조 패턴으로 확인할 수 있습니다.
+          </span>
+        </div>
+      )}
     </section>
   )
 }

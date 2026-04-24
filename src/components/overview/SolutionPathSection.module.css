@@ -157,3 +157,33 @@
   line-height: 1.5;
   font-family: var(--font-mono);
 }
+
+.secondaryHint {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 20px;
+  background: var(--bg-surface);
+  border-top: 1px dashed var(--border);
+}
+
+.secondaryHintLabel {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  padding-top: 1px;
+}
+
+.secondaryHintText {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+}
+
+.secondaryHintText strong {
+  color: var(--fg);
+  font-weight: 600;
+}

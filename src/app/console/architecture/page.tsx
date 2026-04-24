@@ -174,6 +174,17 @@ export default function ArchitecturePage() {
     ...layers.filter((l) => !LAYER_ORDER.includes(l)),
   ]
 
+  // Secondary area — 같은 problemDomain의 병치 가능한 "또 다른 접근" 패턴.
+  const secondary = solutionRoute?.secondary
+  const secondaryPattern = secondary ? getArchPattern(secondary.area) : undefined
+  const secondaryLayers = secondaryPattern
+    ? Array.from(new Set(secondaryPattern.blocks.map((b) => b.layer)))
+    : []
+  const secondaryOrderedLayers = [
+    ...LAYER_ORDER.filter((l) => secondaryLayers.includes(l)),
+    ...secondaryLayers.filter((l) => !LAYER_ORDER.includes(l)),
+  ]
+
   return (
     <div>
       <SectionHeader
@@ -297,6 +308,59 @@ export default function ArchitecturePage() {
             ))}
           </div>
         </div>
+
+        {/* Secondary Architecture — 같은 problemDomain의 "또 다른 접근 방향" */}
+        {secondary && secondaryPattern && (
+          <details className={styles.secondarySection}>
+            <summary className={styles.secondarySummary}>
+              <span className={styles.secondaryLabel}>또 다른 접근 방향</span>
+              <span className={styles.secondaryTitle}>{secondary.areaLabel}</span>
+              <span className={styles.secondaryHint}>클릭하여 보조 참조 아키텍처 보기</span>
+            </summary>
+
+            <div className={styles.secondaryBody}>
+              <div className={styles.secondaryPatternHeader}>
+                <span className={styles.secondaryBadge}>{secondary.area.toUpperCase()}</span>
+                <span className={styles.secondaryPatternTitle}>{secondaryPattern.title}</span>
+              </div>
+              <p className={styles.secondarySubtitle}>{secondaryPattern.subtitle}</p>
+
+              {secondary.conceptDiscussionOnly && secondary.disclaimerText && (
+                <div className={styles.secondaryDisclaimer}>
+                  <span className={styles.secondaryDisclaimerIcon}>!</span>
+                  {secondary.disclaimerText}
+                </div>
+              )}
+
+              <div className={styles.secondaryDiagram}>
+                {secondaryOrderedLayers.map((layer, i) => (
+                  <div key={layer}>
+                    <div className={styles.secondaryLayerRow}>
+                      <div className={styles.secondaryLayerLabel}>{LAYER_LABELS[layer] ?? layer}</div>
+                      <div className={styles.secondaryLayerBlocks}>
+                        {secondaryPattern.blocks.filter((b) => b.layer === layer).map((block) => (
+                          <div
+                            key={block.id}
+                            className={styles.secondaryBlock}
+                            style={{ borderColor: `${block.color}40` }}
+                          >
+                            <div className={styles.blockDot} style={{ background: block.color }} />
+                            <div className={styles.secondaryBlockName}>{block.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {i < secondaryOrderedLayers.length - 1 && <div className={styles.secondaryArrow}>↓</div>}
+                  </div>
+                ))}
+              </div>
+              <p className={styles.secondaryNote}>
+                이 접근은 같은 문제 도메인(신약 발굴 / 컴퓨테이셔널 분석) 안에서 병치 가능한 또 다른 AI 솔루션 패턴입니다.
+                고객 상황에 따라 주 접근과 보완 또는 전환 검토가 가능합니다.
+              </p>
+            </div>
+          </details>
+        )}
       </div>
     </div>
   )

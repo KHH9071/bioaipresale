@@ -21,7 +21,7 @@ import type { BottleneckScenarioId } from './types'
 
 import { generateOpportunityOutput } from '../rules/opportunity'
 import { generatePoCProposal } from '../rules/poc-designer'
-import { routeSolution } from '../rules/solution-router'
+import { routeSolution, buildSecondary } from '../rules/solution-router'
 import { SCENARIO_TEMPLATES } from './scenario-templates'
 
 // ─── Scenario-aware OpportunityOutput ────────────────────────────────────────
@@ -94,14 +94,17 @@ export function getScenarioAwareSolutionRoute(
 
   // 시나리오가 area/areaLabel을 명시하면 base routing을 덮어씀.
   // (예: rwd_autoimmune 'data_infrastructure' → base 'edp' 대신 시나리오 서사에 맞춘 라벨)
+  // primary area가 바뀌면 sibling 기반 secondary도 재계산해서 주/보조를 자동 교차시킴.
+  const nextArea = tmpl.area ?? base.area
   return {
     ...base,
-    area: tmpl.area ?? base.area,
+    area: nextArea,
     areaLabel: tmpl.areaLabel ?? base.areaLabel,
     rationale: tmpl.rationale,
     discoveryQuestions: tmpl.discoveryQuestions,
     requiredDataAssets: tmpl.requiredDataAssets,
     architectureHint: tmpl.architectureHint,
+    secondary: tmpl.area ? buildSecondary(nextArea) : base.secondary,
   }
 }
 

@@ -97,6 +97,25 @@ const SOLUTION_AREA_MAP: Record<SolutionArea, SolutionAreaRule> = {
     disclaimerText:
       '이 경로는 개념 논의 가이드입니다. 본 앱은 AlphaFold를 실행하거나 단백질 구조 예측 결과를 생성하지 않습니다. 워크플로우 설계 및 파트너십 논의에 한해 지원합니다.',
   },
+  drug_discovery_rag: {
+    areaLabel: '신약 발굴 RAG 근거 합성',
+    rationale:
+      '고객의 문제는 편집 전략·공통 경로 탐색·후보 우선순위화 등 신약 발굴 의사결정의 근거 합성이며, 분산된 전임상·임상 문헌을 통합 탐색하는 RAG 기반 파이프라인이 직접 해소 가능한 영역입니다. 이 경로는 실제 공개 데이터 API로 즉시 시연 가능한 PoC 범주입니다.',
+    discoveryQuestions: [
+      '현재 가장 큰 근거 합성 병목은 어디입니까? (경로 탐색 / 후보 비교 / 전달 전략 평가)',
+      '내부적으로 편집 전략 또는 공통 경로 탐색을 시도한 적이 있다면, 주요 장벽은 무엇이었습니까?',
+      '출력에 evidence level(전임상/Phase/리뷰)이 명시되면 내부 의사결정 프로세스에 어떻게 통합됩니까?',
+      'AI 출력이 "결론"이 아닌 "근거 수준이 명시된 가설" 수준으로 제공될 때 수용 가능한 관리자·SME는 누구입니까?',
+    ],
+    requiredDataAssets: [
+      '탐색 대상 돌연변이 유형·경로·후보 전략 키워드',
+      '내부 전임상 데이터 요약 (공유 가능한 범위)',
+      'SME 평가자 섭외 가능 여부 확인',
+    ],
+    architectureHint:
+      'PubMed + bioRxiv + 플랫폼 공개 DB → 수집/ETL → Evidence level 태깅 및 경로·기술 분류 → 하이브리드 검색 인덱스 → LLM 근거 합성 → 전문가 검토 게이트(불확실성 명시) → 가설 지지 보고서 출력',
+    conceptDiscussionOnly: false,
+  },
   genomics_pipeline: {
     areaLabel: '유전체 / 변이 분석 파이프라인',
     rationale:
@@ -141,6 +160,29 @@ const SOLUTION_AREA_MAP: Record<SolutionArea, SolutionAreaRule> = {
   },
 }
 
+// ─── Area Siblings ─────────────────────────────────────────────────────────────
+// 같은 problemDomain 안에서 병치 가능한 "또 다른 접근"을 선언.
+// drug_discovery_computational은 구조 예측(AlphaFold)과 RAG 근거 합성이 공존하는 도메인.
+// area 하나를 primary로 고르고, sibling이 있으면 참조 아키텍처 탭에서 보조 섹션으로 병치.
+
+export const AREA_SIBLINGS: Partial<Record<SolutionArea, SolutionArea>> = {
+  structure_prediction: 'drug_discovery_rag',
+  drug_discovery_rag: 'structure_prediction',
+}
+
+export function buildSecondary(area: SolutionArea) {
+  const siblingArea = AREA_SIBLINGS[area]
+  if (!siblingArea) return undefined
+  const rule = SOLUTION_AREA_MAP[siblingArea]
+  return {
+    area: siblingArea,
+    areaLabel: rule.areaLabel,
+    architectureHint: rule.architectureHint,
+    conceptDiscussionOnly: rule.conceptDiscussionOnly,
+    disclaimerText: rule.disclaimerText,
+  }
+}
+
 // ─── Routing Logic ─────────────────────────────────────────────────────────────
 
 function resolveArea(input: QueryInput): SolutionArea {
@@ -158,6 +200,8 @@ function resolveArea(input: QueryInput): SolutionArea {
       case 'data_infrastructure':
         return 'edp'
       case 'drug_discovery_computational':
+        // 기본 primary는 구조 예측 (기존 ★구조 예측 예시 preset 동작 유지).
+        // mutation_agnostic 등 RAG 서사 시나리오는 템플릿에서 area를 'drug_discovery_rag'로 override.
         return 'structure_prediction'
       case 'patient_digital_health':
         return 'digital_health'
@@ -183,11 +227,12 @@ export function routeSolution(input: QueryInput): SolutionRouteResult {
     architectureHint: rule.architectureHint,
     conceptDiscussionOnly: rule.conceptDiscussionOnly,
     disclaimerText: rule.disclaimerText,
+    secondary: buildSecondary(area),
   }
 }
 
 export function isGenAIPath(area: SolutionArea): boolean {
-  return area === 'genai' || area === 'kol'
+  return area === 'genai' || area === 'kol' || area === 'drug_discovery_rag'
 }
 
 export const PROBLEM_DOMAIN_LABELS: Record<ProblemDomain, string> = {
@@ -210,6 +255,7 @@ export const SOLUTION_AREA_LABELS: Record<SolutionArea, string> = {
   kol: 'KOL & 랜드스케이프 인텔리전스',
   edp: '엔터프라이즈 데이터 플랫폼',
   structure_prediction: '단백질 구조 예측',
+  drug_discovery_rag: '신약 발굴 RAG 근거 합성',
   genomics_pipeline: '유전체 분석 파이프라인',
   digital_health: '디지털 헬스 플랫폼',
 }

@@ -453,7 +453,7 @@ const MUTATION_AGNOSTIC: ScenarioGeneratorTemplate = {
   ],
   architectureHint:
     'PubMed + bioRxiv + 플랫폼 공개 DB → 수집/ETL → Evidence level 태깅 및 경로·기술 분류 → 다중 소스 통합 검색 → LLM 근거 합성 → 전문가 검토 게이트 (높은 불확실성 반영) → 가설 지지 보고서 출력',
-  area: 'structure_prediction',
+  area: 'drug_discovery_rag',
   areaLabel: '플랫폼 전략 · 편집 기술 인사이트',
 }
 

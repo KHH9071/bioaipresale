@@ -32,9 +32,18 @@ export type SolutionArea =
   | 'genai'                // GenAI / 의료 AI 어시스턴트
   | 'edp'                  // 엔터프라이즈 데이터 플랫폼
   | 'structure_prediction' // 단백질 구조 예측 (개념 논의)
+  | 'drug_discovery_rag'   // 신약 발굴 RAG 근거 합성
   | 'genomics_pipeline'    // 유전체 분석 파이프라인 (개념 논의)
   | 'digital_health'       // 디지털 헬스 / 워크플로우 플랫폼
   | 'kol'                  // KOL & 랜드스케이프 인텔리전스
+
+export interface SolutionRouteSecondary {
+  area: SolutionArea
+  areaLabel: string
+  architectureHint: string
+  conceptDiscussionOnly: boolean
+  disclaimerText?: string
+}
 
 export interface SolutionRouteResult {
   area: SolutionArea
@@ -45,6 +54,7 @@ export interface SolutionRouteResult {
   architectureHint: string
   conceptDiscussionOnly: boolean
   disclaimerText?: string
+  secondary?: SolutionRouteSecondary
 }
 
 export interface QueryInput {

@@ -273,3 +273,201 @@
   color: var(--fg-muted);
   line-height: 1.6;
 }
+
+/* ── Secondary Architecture (sibling area) ─────────────────── */
+
+.secondarySection {
+  background: var(--bg-surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  overflow: hidden;
+}
+
+.secondarySection[open] {
+  border-style: solid;
+}
+
+.secondarySummary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.secondarySummary::-webkit-details-marker {
+  display: none;
+}
+
+.secondarySummary::before {
+  content: '▸';
+  color: var(--fg-subtle);
+  font-size: 11px;
+  transition: transform 0.15s;
+}
+
+.secondarySection[open] .secondarySummary::before {
+  transform: rotate(90deg);
+}
+
+.secondaryLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 8px;
+}
+
+.secondaryTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  flex: 1;
+}
+
+.secondaryHint {
+  font-size: 11px;
+  color: var(--fg-subtle);
+  font-style: italic;
+}
+
+.secondaryBody {
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.secondaryPatternHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-top: 14px;
+}
+
+.secondaryBadge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+}
+
+.secondaryPatternTitle {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.secondarySubtitle {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.secondaryDisclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(240, 136, 62, 0.08);
+  border: 1px solid rgba(240, 136, 62, 0.3);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #f0883e;
+  line-height: 1.5;
+}
+
+.secondaryDisclaimerIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #f0883e;
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.secondaryDiagram {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+  opacity: 0.85;
+}
+
+.secondaryLayerRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.secondaryLayerLabel {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--fg-subtle);
+  width: 72px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.secondaryLayerBlocks {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.secondaryBlock {
+  flex: 1;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 7px 10px;
+}
+
+.secondaryBlockName {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  line-height: 1.3;
+}
+
+.secondaryArrow {
+  font-size: 13px;
+  color: var(--fg-subtle);
+  padding: 1px 0 1px 84px;
+}
+
+.secondaryNote {
+  font-size: 11px;
+  color: var(--fg-subtle);
+  line-height: 1.5;
+  font-style: italic;
+  margin: 6px 0 0;
+  padding: 8px 12px;
+  border-left: 2px solid var(--border);
+}

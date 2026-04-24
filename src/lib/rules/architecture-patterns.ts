@@ -174,6 +174,43 @@ const STRUCTURE_PATTERN: ArchPattern = {
   ],
 }
 
+// ─── Drug Discovery RAG Architecture ─────────────────────────────────────────
+// drug_discovery_computational 도메인의 RAG 경로 — 편집 전략·공통 경로 탐색·
+// 후보 우선순위화 근거 합성용. GenAI 패턴의 블록을 재사용하지만 문맥은 신약 발굴 특화.
+
+const DRUG_DISCOVERY_RAG_PATTERN: ArchPattern = {
+  solutionArea: 'drug_discovery_rag',
+  title: '신약 발굴 RAG 근거 합성 참조 아키텍처',
+  subtitle: '편집 전략·공통 경로 탐색·후보 우선순위화를 위한 문헌·플랫폼 통합 RAG 패턴',
+  blocks: [
+    { id: 'public-data', label: '외부 공개 데이터', description: 'PubMed, bioRxiv, ClinicalTrials.gov, gene therapy 플랫폼 공개 DB, 특허 공개 DB. 편집 전략(base editing·exon skipping·prime editing)·공통 경로 근거의 1차 소스로 모두 공개 접근 가능합니다.', layer: 'source', color: '#58A6FF' },
+    { id: 'internal-data', label: '고객 내부 콘텐츠', description: '내부 전임상 데이터 요약, 돌연변이 유형별 실험 결과, 편집 전략 검토 문서. 공유 가능한 범위 내에서 PoC 2단계에서 연동합니다.', layer: 'source', color: '#3FB950' },
+    { id: 'ingestion', label: '수집 / ETL', description: '논문·프리프린트·임상 레코드 수집 및 파싱, 수식·구조식 처리, 편집 전략·경로·전달 모달리티별 메타데이터 필터 구성. 이 레이어 안정성이 하위 증거 품질을 결정합니다.', layer: 'processing', color: '#D29922' },
+    { id: 'metadata', label: '메타데이터 정규화 · Evidence level 태깅', description: '돌연변이 유형·경로·편집 기술(CRISPR/base editing/prime editing)·전달 방식을 표준 어휘로 정규화하고, 각 근거에 evidence level(전임상 / Phase I / 리뷰)을 태깅합니다. 출력의 불확실성 명시에 필수입니다.', layer: 'processing', color: '#D29922' },
+    { id: 'search-index', label: '하이브리드 검색 인덱스', description: '시맨틱 임베딩(경로·기전 유사도)과 BM25(정확 용어 매칭) 결합. 편집 기술 명명이 다양하고 빠르게 변하는 분야 특성상 둘 다 필요합니다.', layer: 'processing', color: '#D29922' },
+    { id: 'llm-orchestration', label: 'LLM 오케스트레이션', description: '검색 → 경로 클러스터링 → 근거 수준별 요약 → 가설 지지 서술 생성. 다단계 추론으로 공통 병인 경로 후보 간 비교·대조를 구조화합니다. 결론이 아닌 "근거 수준이 명시된 가설"을 출력하도록 프롬프트를 제약합니다.', layer: 'intelligence', color: '#BC8CFF' },
+    { id: 'guardrail', label: '가드레일 · 불확실성 게이트', description: '모든 출력에 PMID/NCT ID 인용 및 evidence level(전임상/임상/리뷰) 명시. "전략 결론" 금지 · "근거 지원" 서술만 허용. 전문가 검토 큐로 고불확실성 항목 에스컬레이션.', layer: 'intelligence', color: '#BC8CFF' },
+    { id: 'web-app', label: '연구자 웹 앱', description: '가설 지지 보고서, 경로 후보 카드, 편집 전략 비교 뷰, 불확실성 배지. BD·Discovery 연구팀을 주 대상으로 설계된 인터페이스로 범용 챗봇 아닙니다.', layer: 'delivery', color: '#F85149' },
+    { id: 'logging', label: '로깅 · SME 평가 수집', description: '쿼리 로그, 전문가 검토 결정 이력, evidence level별 채택률, 가설 재검증 주기. PoC KPI 측정과 후속 확장 근거 축적에 사용합니다.', layer: 'observability', color: '#8B949E' },
+  ],
+  deploymentOptions: [
+    { title: '클라우드 빠른 PoC', description: '관리형 벡터 DB(Pinecone / Weaviate), 서버리스 LLM API, 공개 데이터 소스만. 4~6주 내 편집 전략 후보 탐색 파이프라인 시연 가능.', color: '#3FB950' },
+    { title: '내부 전임상 데이터 연동', description: '내부 전임상 데이터 요약을 VPC 격리 인덱스에 추가, 접근 제어 및 감사 로깅 포함. PoC 이후 단계에서 공유 가능한 범위부터 점진적 연동.', color: '#58A6FF' },
+    { title: '특허·플랫폼 DB 확장', description: '상업 특허 DB(예: PatSnap, Derwent), 게놈 편집 플랫폼 DB 구독 연동으로 커버리지 확장. IP 전략 평가와 연계 시 유효.', color: '#D29922' },
+  ],
+  governance: [
+    { label: '출처 추적 가능성', text: '모든 출력에 PMID / NCT ID / DOI 또는 문서 섹션 출처 포함. 출처 없는 주장은 사용자에게 전달되지 않습니다.' },
+    { label: 'Evidence level 명시 의무', text: '모든 가설 지지 서술에 근거 수준(전임상 / Phase I / II / III / 리뷰)을 표기. 근거 수준이 낮은 항목은 별도 경고 배지.' },
+    { label: '결론 vs 근거 지원 분리', text: '출력 UI에 "이 결과는 근거 탐색 지원이며 전략 결론이 아닙니다"를 고정 표시. 처방·임상 권고 표현 금지.' },
+    { label: '전문가 검토 게이트', text: '불확실성 높은 경로 후보·전달 전략은 SME 검토 대기열에 자동 배치. 검토 의사결정을 로그에 기록.' },
+  ],
+  deliveryNotes: [
+    { title: 'PoC 범위', text: '공개 문헌·플랫폼 DB 한정, 특정 적응증·돌연변이 유형 집중, 클라우드 호스팅. 6주 내 가설 지지 보고서 초안 시연 가능.' },
+    { title: '프로덕션 전환', text: '내부 전임상 데이터 수집 연동, 특허 DB 확장, VPC 격리, SME 승인 워크플로우, 알림 엔진 추가. 통상 3~5개월 소요.' },
+    { title: '예상 확장', text: '전달 모달리티별 hypothesis 프레이밍 모듈 추가, in-silico 후보 스크리닝 파이프라인 연계(구조 예측 경로와 상호보완), IP 랜드스케이프 연동.' },
+  ],
+}
+
 // ─── Genomics Architecture ────────────────────────────────────────────────────
 
 const GENOMICS_PATTERN: ArchPattern = {
@@ -251,6 +288,7 @@ const ARCHITECTURE_PATTERNS: Record<SolutionArea, ArchPattern> = {
   kol: KOL_PATTERN,
   edp: EDP_PATTERN,
   structure_prediction: STRUCTURE_PATTERN,
+  drug_discovery_rag: DRUG_DISCOVERY_RAG_PATTERN,
   genomics_pipeline: GENOMICS_PATTERN,
   digital_health: DIGITAL_HEALTH_PATTERN,
 }
